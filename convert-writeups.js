@@ -18,74 +18,92 @@ function markdownToHtml(markdown) {
   // Code blocks (triple backticks)
   html = html.replace(/```(?:[\w]*\n)?([\s\S]*?)```/g, (match, code) => {
     const escaped = code.trim().replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    return `<pre><code>${escaped}</code></pre>`;
+    return `\n<pre><code>${escaped}</code></pre>\n`;
   });
 
-  // Inline code
-  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+  // Inline code (before other replacements)
+  html = html.replace(/`([^`\n]+)`/g, '<code>$1</code>');
 
-  // Headers
+  // Headers (must be done in order, largest first)
   html = html.replace(/^#### (.*?)$/gm, '<h4>$1</h4>');
   html = html.replace(/^### (.*?)$/gm, '<h3>$1</h3>');
   html = html.replace(/^## (.*?)$/gm, '<h2>$1</h2>');
   html = html.replace(/^# (.*?)$/gm, '<h1>$1</h1>');
 
-  // Bold
-  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
+  // Bold (before italic to avoid conflicts)
+  html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/__([^_]+)__/g, '<strong>$1</strong>');
 
   // Italic
-  html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-  html = html.replace(/_(.+?)_/g, '<em>$1</em>');
+  html = html.replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
+  html = html.replace(/_([^_\n]+)_/g, '<em>$1</em>');
 
   // Blockquotes
   html = html.replace(/^> (.*?)$/gm, '<blockquote>$1</blockquote>');
 
-  // Unordered lists
-  let inList = false;
+  // Lists - handle both ordered and unordered
   const lines = html.split('\n');
-  html = '';
+  let result = [];
+  let inUnorderedList = false;
+  let inOrderedList = false;
+
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
-    if (line.match(/^[-*]\s/)) {
-      if (!inList) {
-        html += '<ul>';
-        inList = true;
+    
+    // Unordered list items
+    if (line.match(/^[-*]\s+/)) {
+      if (!inUnorderedList) {
+        result.push('<ul>');
+        inUnorderedList = true;
       }
-      html += '<li>' + line.replace(/^[-*]\s+/, '') + '</li>';
-    } else if (line.match(/^\d+\.\s/)) {
-      if (!inList) {
-        html += '<ol>';
-        inList = true;
+      if (inOrderedList) {
+        result.push('</ol>');
+        inOrderedList = false;
       }
-      html += '<li>' + line.replace(/^\d+\.\s+/, '') + '</li>';
-    } else {
-      if (inList) {
-        html += '</ul>';
-        inList = false;
-      }
-      html += line;
+      result.push('<li>' + line.replace(/^[-*]\s+/, '') + '</li>');
     }
-    if (i < lines.length - 1) html += '\n';
+    // Ordered list items
+    else if (line.match(/^\d+\.\s+/)) {
+      if (!inOrderedList) {
+        result.push('<ol>');
+        inOrderedList = true;
+      }
+      if (inUnorderedList) {
+        result.push('</ul>');
+        inUnorderedList = false;
+      }
+      result.push('<li>' + line.replace(/^\d+\.\s+/, '') + '</li>');
+    }
+    // End lists on empty line or new content
+    else {
+      if (inUnorderedList && line.trim()) {
+        result.push('</ul>');
+        inUnorderedList = false;
+      }
+      if (inOrderedList && line.trim()) {
+        result.push('</ol>');
+        inOrderedList = false;
+      }
+      result.push(line);
+    }
   }
-  if (inList) html += '</ul>';
 
-  // Paragraphs (wrap in <p> tags, but not for existing elements)
-  html = html.split('\n').map(line => {
-    // Skip empty lines and lines that are already HTML elements
-    if (!line.trim() || line.match(/^<[^>]+>/) || line.match(/^<\/[^>]+>/) || line.match(/^<(pre|blockquote|ul|ol|li|h[1-6])/)) {
-      return line;
-    }
-    // Wrap in paragraph if not already
-    if (!line.match(/^<p>/)) {
-      return `<p>${line}</p>`;
-    }
-    return line;
-  }).join('\n');
+  // Close any unclosed lists
+  if (inUnorderedList) result.push('</ul>');
+  if (inOrderedList) result.push('</ol>');
 
-  // Clean up multiple closing tags
-  html = html.replace(/<\/ul>\s*<ul>/g, '');
-  html = html.replace(/<\/ol>\s*<ol>/g, '');
+  html = result.join('\n');
+
+  // Wrap paragraphs - be careful not to wrap existing HTML elements
+  const paras = html.split('\n\n');
+  html = paras.map(para => {
+    para = para.trim();
+    // Don't wrap if already HTML
+    if (!para || para.match(/^<[a-z]/i) || para.match(/^<\/[a-z]/i)) {
+      return para;
+    }
+    return `<p>${para}</p>`;
+  }).join('\n\n');
 
   return html;
 }
