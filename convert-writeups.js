@@ -25,6 +25,7 @@ function markdownToHtml(markdown) {
   html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
 
   // Headers
+  html = html.replace(/^#### (.*?)$/gm, '<h4>$1</h4>');
   html = html.replace(/^### (.*?)$/gm, '<h3>$1</h3>');
   html = html.replace(/^## (.*?)$/gm, '<h2>$1</h2>');
   html = html.replace(/^# (.*?)$/gm, '<h1>$1</h1>');
@@ -37,20 +38,52 @@ function markdownToHtml(markdown) {
   html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
   html = html.replace(/_(.+?)_/g, '<em>$1</em>');
 
-  // Lists
-  html = html.replace(/^\* (.*?)$/gm, '<li>$1</li>');
-  html = html.replace(/^- (.*?)$/gm, '<li>$1</li>');
-  html = html.replace(/^\d+\. (.*?)$/gm, '<li>$1</li>');
-  html = html.replace(/(<li>.*<\/li>)/s, (match) => {
-    // Check if it's ordered or unordered
-    return `<ul>${match}</ul>`;
-  });
+  // Blockquotes
+  html = html.replace(/^> (.*?)$/gm, '<blockquote>$1</blockquote>');
 
-  // Paragraphs
-  html = html.replace(/\n\n+/g, '</p><p>');
-  html = `<p>${html}</p>`;
+  // Unordered lists
+  let inList = false;
+  const lines = html.split('\n');
+  html = '';
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (line.match(/^[-*]\s/)) {
+      if (!inList) {
+        html += '<ul>';
+        inList = true;
+      }
+      html += '<li>' + line.replace(/^[-*]\s+/, '') + '</li>';
+    } else if (line.match(/^\d+\.\s/)) {
+      if (!inList) {
+        html += '<ol>';
+        inList = true;
+      }
+      html += '<li>' + line.replace(/^\d+\.\s+/, '') + '</li>';
+    } else {
+      if (inList) {
+        html += '</ul>';
+        inList = false;
+      }
+      html += line;
+    }
+    if (i < lines.length - 1) html += '\n';
+  }
+  if (inList) html += '</ul>';
 
-  // Clean up multiple ul/ol tags
+  // Paragraphs (wrap in <p> tags, but not for existing elements)
+  html = html.split('\n').map(line => {
+    // Skip empty lines and lines that are already HTML elements
+    if (!line.trim() || line.match(/^<[^>]+>/) || line.match(/^<\/[^>]+>/) || line.match(/^<(pre|blockquote|ul|ol|li|h[1-6])/)) {
+      return line;
+    }
+    // Wrap in paragraph if not already
+    if (!line.match(/^<p>/)) {
+      return `<p>${line}</p>`;
+    }
+    return line;
+  }).join('\n');
+
+  // Clean up multiple closing tags
   html = html.replace(/<\/ul>\s*<ul>/g, '');
   html = html.replace(/<\/ol>\s*<ol>/g, '');
 

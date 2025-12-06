@@ -13,115 +13,177 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="assets/css/main.css">
     <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, #040008 0%, #0a0515 50%, #040008 100%);
+        color: #ddd;
+        font-family: 'Courier New', monospace;
+        line-height: 1.6;
+      }
+
       .writeup-detail {
-        max-width: 900px;
+        max-width: 1000px;
         margin: 0 auto;
-        padding: 2rem;
+        padding: 3rem 2rem;
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-bottom: 2rem;
+        color: #00d9ff;
+        text-decoration: none;
+        border: 1px solid #00d9ff;
+        padding: 0.7rem 1.5rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        font-size: 0.95rem;
+      }
+
+      .back-link:hover {
+        background-color: #00d9ff;
+        color: #040008;
+        box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
       }
 
       .writeup-detail header {
         border-bottom: 2px solid #e600ff;
-        padding-bottom: 2rem;
-        margin-bottom: 2rem;
+        padding-bottom: 2.5rem;
+        margin-bottom: 3rem;
       }
 
       .writeup-detail h1 {
         color: #e600ff;
-        margin: 1rem 0;
-        font-size: 2.5rem;
+        margin: 1.5rem 0;
+        font-size: 2.8rem;
+        text-shadow: 0 0 20px rgba(230, 0, 255, 0.3);
+        word-break: break-word;
       }
 
       .writeup-meta {
         display: flex;
-        gap: 2rem;
+        gap: 2.5rem;
         flex-wrap: wrap;
         color: #00d9ff;
         margin: 1.5rem 0;
-        font-size: 0.9rem;
+        font-size: 1rem;
       }
 
       .writeup-meta span {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.7rem;
+        padding: 0.5rem 1rem;
+        background: rgba(0, 217, 255, 0.05);
+        border: 1px solid rgba(0, 217, 255, 0.2);
+        border-radius: 4px;
       }
 
       .writeup-tags {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.5rem;
-        margin: 1rem 0;
+        gap: 0.8rem;
+        margin: 1.5rem 0;
       }
 
       .tag {
         display: inline-block;
-        padding: 0.4rem 0.8rem;
+        padding: 0.5rem 1rem;
         border: 1px solid #00dd88;
         color: #00dd88;
         border-radius: 4px;
-        font-size: 0.85rem;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        background: rgba(0, 221, 136, 0.05);
+      }
+
+      .tag:hover {
+        background: rgba(0, 221, 136, 0.1);
+        box-shadow: 0 0 15px rgba(0, 221, 136, 0.3);
       }
 
       .writeup-content {
         color: #ddd;
-        line-height: 1.8;
+        line-height: 1.9;
         font-size: 1.05rem;
+      }
+
+      .writeup-content p {
+        margin: 1.5rem 0;
+        text-align: justify;
       }
 
       .writeup-content h2 {
         color: #e600ff;
-        margin-top: 2.5rem;
-        margin-bottom: 1rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 1px solid #e600ff;
+        margin-top: 3rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.8rem;
+        border-bottom: 2px solid #e600ff;
+        font-size: 2rem;
+        text-shadow: 0 0 15px rgba(230, 0, 255, 0.2);
       }
 
       .writeup-content h3 {
         color: #00d9ff;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+      }
+
+      .writeup-content h4 {
+        color: #00dd88;
         margin-top: 1.5rem;
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.8rem;
+        font-size: 1.2rem;
       }
 
       .writeup-content code {
         background-color: #0a0a0f;
-        padding: 0.2rem 0.4rem;
+        padding: 0.3rem 0.6rem;
         border-radius: 3px;
         color: #00dd88;
         font-family: 'Courier New', monospace;
         font-size: 0.95em;
+        border: 1px solid rgba(0, 221, 136, 0.2);
       }
 
       .writeup-content pre {
-        background-color: #0a0a0f;
+        background: linear-gradient(135deg, #0a0a0f 0%, #0f0515 100%);
         border: 1px solid #1a1a2e;
-        border-left: 3px solid #00dd88;
-        padding: 1rem;
+        border-left: 4px solid #00dd88;
+        padding: 1.5rem;
         border-radius: 4px;
         overflow-x: auto;
-        margin: 1.5rem 0;
+        margin: 2rem 0;
+        box-shadow: 0 0 20px rgba(0, 221, 136, 0.1);
       }
 
       .writeup-content pre code {
         background: none;
         padding: 0;
         color: #00dd88;
+        border: none;
+        font-size: 0.95em;
+        line-height: 1.5;
       }
 
       .writeup-content ul, .writeup-content ol {
-        margin: 1rem 0;
-        padding-left: 2rem;
+        margin: 1.5rem 0;
+        padding-left: 2.5rem;
       }
 
       .writeup-content li {
-        margin: 0.5rem 0;
-      }
-
-      .writeup-content p {
-        margin: 1rem 0;
+        margin: 0.8rem 0;
+        color: #ccc;
       }
 
       .writeup-content strong {
         color: #e600ff;
+        font-weight: bold;
       }
 
       .writeup-content em {
@@ -129,56 +191,110 @@
         font-style: italic;
       }
 
-      .mitigations {
-        background-color: #0a0a0f;
-        border-left: 4px solid #00dd88;
-        padding: 1.5rem;
+      .writeup-content blockquote {
+        border-left: 4px solid #e600ff;
+        padding: 1rem 1.5rem;
         margin: 2rem 0;
+        background: rgba(230, 0, 255, 0.05);
         border-radius: 4px;
+        color: #b0b0b0;
+        font-style: italic;
+      }
+
+      .mitigations {
+        background: linear-gradient(135deg, rgba(0, 221, 136, 0.05) 0%, rgba(0, 217, 255, 0.05) 100%);
+        border-left: 4px solid #00dd88;
+        border-top: 1px solid rgba(0, 221, 136, 0.2);
+        border-right: 1px solid rgba(0, 221, 136, 0.2);
+        border-bottom: 1px solid rgba(0, 221, 136, 0.2);
+        padding: 2rem;
+        margin: 3rem 0;
+        border-radius: 4px;
+        box-shadow: 0 0 20px rgba(0, 221, 136, 0.1);
       }
 
       .mitigations h3 {
         color: #00dd88;
         margin-top: 0;
+        margin-bottom: 1.5rem;
+        text-shadow: 0 0 10px rgba(0, 221, 136, 0.2);
       }
 
       .mitigations ul {
         margin: 0;
-        padding-left: 1.5rem;
+        padding-left: 2rem;
       }
 
       .mitigations li {
         color: #ccc;
+        margin: 0.8rem 0;
       }
 
-      .back-link {
-        display: inline-block;
-        margin-bottom: 1rem;
-        color: #00d9ff;
-        text-decoration: none;
-        border: 1px solid #00d9ff;
-        padding: 0.5rem 1rem;
-        border-radius: 4px;
-        transition: all 0.3s ease;
-      }
-
-      .back-link:hover {
-        background-color: #00d9ff;
-        color: #040008;
+      .mitigations li::marker {
+        color: #00dd88;
       }
 
       .loading {
         color: #00d9ff;
         text-align: center;
-        padding: 2rem;
+        padding: 3rem 2rem;
+        font-size: 1.2rem;
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 1;
+        }
       }
 
       .error {
         color: #ff1493;
-        background-color: #0a0a0f;
-        padding: 1.5rem;
+        background: linear-gradient(135deg, rgba(255, 20, 147, 0.05) 0%, rgba(255, 20, 147, 0.02) 100%);
+        padding: 2rem;
         border-left: 4px solid #ff1493;
         border-radius: 4px;
+        margin: 2rem 0;
+        border: 1px solid rgba(255, 20, 147, 0.2);
+      }
+
+      .error a {
+        color: #00d9ff;
+        text-decoration: underline;
+      }
+
+      .error a:hover {
+        color: #e600ff;
+      }
+
+      /* Responsive design */
+      @media (max-width: 768px) {
+        .writeup-detail {
+          padding: 1.5rem 1rem;
+        }
+
+        .writeup-detail h1 {
+          font-size: 2rem;
+        }
+
+        .writeup-meta {
+          gap: 1rem;
+        }
+
+        .writeup-content {
+          font-size: 1rem;
+        }
+
+        .writeup-content h2 {
+          font-size: 1.6rem;
+        }
+
+        .writeup-content h3 {
+          font-size: 1.3rem;
+        }
       }
     </style>
 </head>
