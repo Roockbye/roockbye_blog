@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com 'self'; img-src 'self' data:; script-src 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Referrer-Policy" content="no-referrer">
+    <meta name="description" content="Roockbye blog – writeups, threat intel et expérimentations offensives dans un univers cyberpunk violet & noir.">
+    <title>Roockbye | Accueil</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' ry='18' fill='%23040008'/%3E%3Cpath d='M20 30h60v40H20z' stroke='%23c084fc' stroke-width='6' fill='none'/%3E%3Ccircle cx='35' cy='50' r='6' fill='%23f472b6'/%3E%3Ccircle cx='65' cy='50' r='6' fill='%2314f1d9'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="assets/css/main.css">
+  </head>
+  <body data-theme="dark">
+    <div class="background-grid" aria-hidden="true"></div>
+    <header class="site-header">
+      <nav class="navbar" aria-label="Navigation principale">
+        <a class="logo" href="index.html">Roockbye</a>
+        <div class="nav-actions">
+          <button id="nav-toggle" aria-expanded="false" aria-controls="nav-links">
+            Menu
+          </button>
+          <button id="theme-toggle" aria-label="Basculer le thème" data-theme="dark">
+            Mode
+          </button>
+        </div>
+        <div class="nav-links" id="nav-links">
+          <a href="index.html" aria-current="page">Accueil</a>
+          <a href="about.html">À propos</a>
+          <a href="writeups.html">Writeups</a>
+          <a href="blog.html">Blog</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="hero-panel">
+            <p class="kicker">roockbye // cybercraft</p>
+            <h1>Blog violet & noir pour partager mes attaques, recherches et writeups ultra sécu.</h1>
+            <p>
+              Du pentest offensif aux labos maison, j'écris tout ce qui peut aider la communauté à devenir
+              plus résiliente. Ici pas de marketing, juste des signaux utiles et des preuves d'exploit.
+            </p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="writeups.html">Writeups</a>
+              <a class="btn btn-ghost" href="blog.html">Lire le blog</a>
+            </div>
+          </div>
+          <div class="hero-panel terminal-panel" aria-label="Terminal décoratif">
+            <div class="terminal-header">
+              <span class="terminal-dot"></span>
+              <span class="terminal-dot"></span>
+              <span class="terminal-dot"></span>
+            </div>
+            <div class="terminal-line">
+              <span class="badge" data-tone="accent">live feed</span>
+            </div>
+            <div class="terminal-line">
+              <span>&gt;</span>
+              <span>scanning perimeter...</span>
+            </div>
+            <div class="terminal-line">
+              <span>&gt;</span>
+              <span>threat score stabilized</span>
+            </div>
+            <div class="terminal-line">
+              <span>&gt;</span>
+              <span>deploying violet shield</span>
+            </div>
+            <div class="terminal-line">
+              <span>&gt;</span>
+              <span>logs mirrored to /writeups</span>
+            </div>
+            <div class="terminal-line">
+              <span>&gt;</span>
+              <span>stay paranoid.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="container">
+        <div class="section-heading">
+          <h2>Derniers signaux</h2>
+          <a class="link-arrow" href="blog.html">
+            Parcourir les posts
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+        <div class="cards-grid">
+          <article class="card">
+            <span class="badge">Red Team</span>
+            <h3>Opération Wraith Pulse</h3>
+            <p>Notes terrain, plans d'évasion et correctifs pour les blue teams.</p>
+            <a class="link-arrow" href="blog.html#op-wraith">Lire</a>
+          </article>
+          <article class="card">
+            <span class="badge" data-tone="accent">Recherche</span>
+            <h3>Hypervisor Poisoning</h3>
+            <p>PoC d'une chaîne d'attaque visant la mémoire partagée des hyperviseurs.</p>
+            <a class="link-arrow" href="writeups.html#hypervisor">Découvrir</a>
+          </article>
+          <article class="card">
+            <span class="badge">Community</span>
+            <h3>Challenges & talks</h3>
+            <p>Infos sur mes ateliers, talks et bounties ouverts.</p>
+            <a class="link-arrow" href="about.html#agenda">Participer</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="container">
+        <div class="section-heading">
+          <h2>Piliers du blog</h2>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card">
+            <h3>0x64</h3>
+            <span>writeups publics</span>
+            <p>Chaque article embarque des checks sécuritaires pour éviter l'abus.</p>
+          </article>
+          <article class="stat-card">
+            <h3>24/7</h3>
+            <span>veille</span>
+            <p>Monitoring automatisé + alertes encryptées pour suivre l'actu.</p>
+          </article>
+          <article class="stat-card">
+            <h3>∞</h3>
+            <span>esprit hacker</span>
+            <p>Pas de drama, juste du code propre, des exploits et de l'éthique.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-grid">
+        <div>
+          <strong>Contact</strong>
+          <p><a href="mailto:roockbye@proton.me">roockbye@proton.me</a></p>
+          <p>PGP: 0x1337CAFE</p>
+        </div>
+        <div>
+          <strong>Hygiène</strong>
+          <p>TLS partout, CSP stricte, logs signés, pas de trackers.</p>
+        </div>
+        <div>
+          <strong>Social</strong>
+          <p><a href="https://infosec.exchange/@roockbye" rel="noopener" target="_blank">Mastodon</a></p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="assets/js/site.js" defer></script>
+  </body>
+</html>

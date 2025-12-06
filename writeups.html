@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com 'self'; img-src 'self' data:; script-src 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Referrer-Policy" content="no-referrer">
+    <meta name="description" content="Filtres writeups et challenges – tri par difficulté, catégorie et tags pour rester aiguisé.">
+    <title>Roockbye | Writeups</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' ry='18' fill='%23040008'/%3E%3Cpath d='M20 30h60v40H20z' stroke='%23c084fc' stroke-width='6' fill='none'/%3E%3Ccircle cx='35' cy='50' r='6' fill='%23f472b6'/%3E%3Ccircle cx='65' cy='50' r='6' fill='%2314f1d9'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="assets/css/main.css">
+  </head>
+  <body data-theme="dark">
+    <div class="background-grid" aria-hidden="true"></div>
+    <header class="site-header">
+      <nav class="navbar" aria-label="Navigation principale">
+        <a class="logo" href="index.html">Roockbye</a>
+        <div class="nav-actions">
+          <button id="nav-toggle" aria-expanded="false" aria-controls="nav-links">Menu</button>
+          <button id="theme-toggle" aria-label="Basculer le thème" data-theme="dark">Mode</button>
+        </div>
+        <div class="nav-links" id="nav-links">
+          <a href="index.html">Accueil</a>
+          <a href="about.html">À propos</a>
+          <a href="writeups.html" aria-current="page">Writeups</a>
+          <a href="blog.html">Blog</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="container hero-grid">
+        <div class="hero-panel">
+          <p class="kicker">writeups sécurisés</p>
+          <h1>Filtrer, prioriser, partager.</h1>
+          <p>
+            Base de connaissances privée rendue publique pour les curieux. Chaque writeup inclut des garde-fous
+            (hash, scope, mitigation) afin d'éviter toute dérive malveillante.
+          </p>
+        </div>
+        <div class="hero-panel">
+          <span class="badge">Stats live</span>
+          <p><strong data-total-count>0</strong> writeups chargés</p>
+          <p>Filtrage local, aucune donnée envoyée côté serveur.</p>
+        </div>
+      </section>
+
+      <section class="container">
+        <div class="writeup-controls">
+          <label class="control">
+            <span>Recherche</span>
+            <input type="search" id="writeup-search" name="writeup-search" placeholder="SQLi, cloud, crypto..." autocomplete="off">
+          </label>
+          <label class="control">
+            <span>Difficulté</span>
+            <select id="difficulty-filter" name="difficulty">
+              <option value="all">Toutes</option>
+              <option value="init">Init</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </label>
+          <div class="control">
+            <span>Tags</span>
+            <div class="chip-row" id="tag-chips" role="group" aria-label="Filtrer par tag">
+              <button class="chip" type="button" aria-pressed="true" data-tag="all">Tous</button>
+              <button class="chip" type="button" aria-pressed="false" data-tag="web">Web</button>
+              <button class="chip" type="button" aria-pressed="false" data-tag="cloud">Cloud</button>
+              <button class="chip" type="button" aria-pressed="false" data-tag="reverse">Reverse</button>
+              <button class="chip" type="button" aria-pressed="false" data-tag="crypto">Crypto</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="cards-grid" data-writeups></div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-grid">
+        <div>
+          <strong>Disclaimer</strong>
+          <p>Echantillons redacted, exploitation responsable uniquement.</p>
+        </div>
+        <div>
+          <strong>Hashes</strong>
+          <p>Chaque PoC signé (SHA-512) et horodaté.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="assets/js/site.js" defer></script>
+    <script src="assets/js/writeups.js" defer></script>
+  </body>
+</html>
