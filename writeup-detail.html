@@ -208,7 +208,7 @@
 
     <script src="assets/js/site.js" defer></script>
     <script src="assets/js/api.js" defer></script>
-    <script>
+    <script defer>
       (() => {
         'use strict';
 
@@ -221,6 +221,11 @@
         async function loadWriteup() {
           const container = document.getElementById('writeup-container');
           
+          if (!container) {
+            console.error('Container not found');
+            return;
+          }
+          
           // Get writeup ID from URL hash
           const id = window.location.hash.slice(1);
           
@@ -230,18 +235,24 @@
           }
 
           try {
+            console.log('Loading writeup:', id);
             // Fetch writeups directly from JSON
             const response = await fetch('assets/data/writeups.json');
-            if (!response.ok) throw new Error('Failed to load writeups');
+            if (!response.ok) throw new Error('Failed to load writeups: ' + response.status);
             
             const writeups = await response.json();
+            console.log('Loaded writeups:', writeups.length);
+            
             const writeup = writeups.find(w => w.id === id);
             
             if (!writeup) {
+              console.error('Writeup not found:', id);
               container.innerHTML = '<div class="error">Writeup non trouvé. <a href="writeups.html">Retour aux writeups</a></div>';
               return;
             }
 
+            console.log('Found writeup:', writeup.title);
+            
             // Update page title
             document.title = `${writeup.title} | Roockbye`;
 
@@ -274,18 +285,15 @@
             `;
 
             container.innerHTML = html;
+            console.log('Writeup loaded successfully');
           } catch (error) {
             console.error('Error loading writeup:', error);
             container.innerHTML = `<div class="error">Erreur lors du chargement du writeup: ${sanitizeHtml(error.message)}</div>`;
           }
         }
 
-        // Start loading when DOM is ready
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', loadWriteup);
-        } else {
-          loadWriteup();
-        }
+        // Load when DOM is ready
+        document.addEventListener('DOMContentLoaded', loadWriteup);
       })();
     </script>
 </body>
