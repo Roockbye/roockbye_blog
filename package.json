@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Secure cyberpunk blog – static site hosted on GitHub Pages",
   "private": true,
+  "scripts": {
+    "convert": "node convert-writeups.js"
+  },
   "keywords": [
     "blog",
     "security",

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com 'self'; img-src 'self' data:; script-src 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Referrer-Policy" content="no-referrer">
+    <meta name="description" content="Writeup détaillé - Roockbye">
+    <title>Roockbye | Writeup Detail</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' ry='18' fill='%23040008'/%3E%3Cpath d='M20 30h60v40H20z' stroke='%23c084fc' stroke-width='6' fill='none'/%3E%3Ccircle cx='35' cy='50' r='6' fill='%23f472b6'/%3E%3Ccircle cx='65' cy='50' r='6' fill='%2314f1d9'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+      .writeup-detail {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      .writeup-detail header {
+        border-bottom: 2px solid #e600ff;
+        padding-bottom: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .writeup-detail h1 {
+        color: #e600ff;
+        margin: 1rem 0;
+        font-size: 2.5rem;
+      }
+
+      .writeup-meta {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+        color: #00d9ff;
+        margin: 1.5rem 0;
+        font-size: 0.9rem;
+      }
+
+      .writeup-meta span {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .writeup-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin: 1rem 0;
+      }
+
+      .tag {
+        display: inline-block;
+        padding: 0.4rem 0.8rem;
+        border: 1px solid #00dd88;
+        color: #00dd88;
+        border-radius: 4px;
+        font-size: 0.85rem;
+      }
+
+      .writeup-content {
+        color: #ddd;
+        line-height: 1.8;
+        font-size: 1.05rem;
+      }
+
+      .writeup-content h2 {
+        color: #e600ff;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #e600ff;
+      }
+
+      .writeup-content h3 {
+        color: #00d9ff;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .writeup-content code {
+        background-color: #0a0a0f;
+        padding: 0.2rem 0.4rem;
+        border-radius: 3px;
+        color: #00dd88;
+        font-family: 'Courier New', monospace;
+        font-size: 0.95em;
+      }
+
+      .writeup-content pre {
+        background-color: #0a0a0f;
+        border: 1px solid #1a1a2e;
+        border-left: 3px solid #00dd88;
+        padding: 1rem;
+        border-radius: 4px;
+        overflow-x: auto;
+        margin: 1.5rem 0;
+      }
+
+      .writeup-content pre code {
+        background: none;
+        padding: 0;
+        color: #00dd88;
+      }
+
+      .writeup-content ul, .writeup-content ol {
+        margin: 1rem 0;
+        padding-left: 2rem;
+      }
+
+      .writeup-content li {
+        margin: 0.5rem 0;
+      }
+
+      .writeup-content p {
+        margin: 1rem 0;
+      }
+
+      .writeup-content strong {
+        color: #e600ff;
+      }
+
+      .writeup-content em {
+        color: #00d9ff;
+        font-style: italic;
+      }
+
+      .mitigations {
+        background-color: #0a0a0f;
+        border-left: 4px solid #00dd88;
+        padding: 1.5rem;
+        margin: 2rem 0;
+        border-radius: 4px;
+      }
+
+      .mitigations h3 {
+        color: #00dd88;
+        margin-top: 0;
+      }
+
+      .mitigations ul {
+        margin: 0;
+        padding-left: 1.5rem;
+      }
+
+      .mitigations li {
+        color: #ccc;
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-bottom: 1rem;
+        color: #00d9ff;
+        text-decoration: none;
+        border: 1px solid #00d9ff;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+      }
+
+      .back-link:hover {
+        background-color: #00d9ff;
+        color: #040008;
+      }
+
+      .loading {
+        color: #00d9ff;
+        text-align: center;
+        padding: 2rem;
+      }
+
+      .error {
+        color: #ff1493;
+        background-color: #0a0a0f;
+        padding: 1.5rem;
+        border-left: 4px solid #ff1493;
+        border-radius: 4px;
+      }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="bracket">[</span>ROOCKBYE<span class="bracket">]</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Mode</a>
+                <a href="index.html" class="nav-link">ACCUEIL</a>
+                <a href="about.html" class="nav-link">À PROPOS</a>
+                <a href="writeups.html" class="nav-link active">WRITEUPS</a>
+                <a href="blog.html" class="nav-link">BLOG</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="writeup-detail">
+        <a href="writeups.html" class="back-link">← Retour aux writeups</a>
+        
+        <div id="writeup-container">
+            <div class="loading">Chargement du writeup...</div>
+        </div>
+    </main>
+
+    <script src="assets/js/site.js" defer></script>
+    <script src="assets/js/api.js" defer></script>
+    <script>
+      (() => {
+        'use strict';
+
+        async function loadWriteup() {
+          const container = document.getElementById('writeup-container');
+          
+          // Get writeup ID from URL hash
+          const id = window.location.hash.slice(1);
+          
+          if (!id) {
+            container.innerHTML = '<div class="error">Aucun writeup spécifié. <a href="writeups.html">Retour aux writeups</a></div>';
+            return;
+          }
+
+          try {
+            const api = window.RBApi;
+            if (!api) {
+              throw new Error('API not available');
+            }
+
+            const writeup = await api.getWriteupById(id);
+            
+            if (!writeup) {
+              container.innerHTML = '<div class="error">Writeup non trouvé. <a href="writeups.html">Retour aux writeups</a></div>';
+              return;
+            }
+
+            // Update page title
+            document.title = `${writeup.title} | Roockbye`;
+
+            // Render writeup
+            const html = `
+              <header>
+                <h1>${sanitizeHtml(writeup.title)}</h1>
+                <div class="writeup-meta">
+                  <span>📁 ${sanitizeHtml(writeup.category)}</span>
+                  <span>⚔️ ${sanitizeHtml(writeup.difficulty)}</span>
+                  <span>📅 ${new Date(writeup.date).toLocaleDateString('fr-FR')}</span>
+                </div>
+                <div class="writeup-tags">
+                  ${writeup.tags.map(tag => `<span class="tag">${sanitizeHtml(tag)}</span>`).join('')}
+                </div>
+              </header>
+
+              <div class="writeup-content">
+                ${writeup.content || '<p>Contenu non disponible.</p>'}
+              </div>
+
+              ${writeup.mitigations && writeup.mitigations.length > 0 ? `
+                <div class="mitigations">
+                  <h3>🛡️ Mitigations</h3>
+                  <ul>
+                    ${writeup.mitigations.map(m => `<li>${sanitizeHtml(m)}</li>`).join('')}
+                  </ul>
+                </div>
+              ` : ''}
+            `;
+
+            container.innerHTML = html;
+          } catch (error) {
+            console.error('Error loading writeup:', error);
+            container.innerHTML = `<div class="error">Erreur lors du chargement du writeup: ${sanitizeHtml(error.message)}</div>`;
+          }
+        }
+
+        function sanitizeHtml(text) {
+          const div = document.createElement('div');
+          div.textContent = text;
+          return div.innerHTML;
+        }
+
+        document.addEventListener('DOMContentLoaded', loadWriteup);
+      })();
+    </script>
+</body>
+</html>

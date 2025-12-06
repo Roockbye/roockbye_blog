@@ -162,7 +162,7 @@
         footer.className = 'post-footer';
         const link = document.createElement('a');
         link.className = 'link-arrow';
-        link.href = `blog.html#${item.id}`;
+        link.href = `writeup-detail.html#${item.id}`;
         link.textContent = 'Voir le post';
         link.setAttribute('rel', 'noopener');
         footer.appendChild(link);
