@@ -7,16 +7,16 @@
 
   const api = {
     async getWriteups() {
-      if (writeupsCache) return { data: writeupsCache, count: writeupsCache.length };
+      if (writeupsCache) return { success: true, data: writeupsCache, count: writeupsCache.length };
       
       try {
         const response = await fetch('assets/data/writeups.json');
         if (!response.ok) throw new Error('Failed to load writeups');
         writeupsCache = await response.json();
-        return { data: writeupsCache, count: writeupsCache.length };
+        return { success: true, data: writeupsCache, count: writeupsCache.length };
       } catch (error) {
         console.error('Failed to load writeups:', error);
-        return { data: [], count: 0 };
+        return { success: false, data: [], count: 0 };
       }
     },
 
@@ -28,16 +28,16 @@
     },
 
     async getBlogPosts() {
-      if (blogCache) return { data: blogCache, count: blogCache.length };
+      if (blogCache) return { success: true, data: blogCache, count: blogCache.length };
       
       try {
         const response = await fetch('assets/data/blog.json');
         if (!response.ok) throw new Error('Failed to load blog posts');
         blogCache = await response.json();
-        return { data: blogCache, count: blogCache.length };
+        return { success: true, data: blogCache, count: blogCache.length };
       } catch (error) {
         console.error('Failed to load blog posts:', error);
-        return { data: [], count: 0 };
+        return { success: false, data: [], count: 0 };
       }
     },
 
