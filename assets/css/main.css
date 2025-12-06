@@ -254,6 +254,7 @@ button {
   background: radial-gradient(circle at 20% 20%, rgba(0, 217, 255, 0.15), transparent 55%);
   opacity: 0;
   transition: opacity var(--transition);
+  pointer-events: none;
 }
 
 .hero-panel:hover::after {
@@ -287,6 +288,7 @@ button {
 }
 
 .btn {
+  display: inline-block;
   padding: 14px 24px;
   border-radius: 999px;
   text-transform: uppercase;
@@ -294,6 +296,14 @@ button {
   font-size: 0.85rem;
   border: 1px solid transparent;
   transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  cursor: pointer;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.btn:visited {
+  color: inherit;
 }
 
 .btn-primary {

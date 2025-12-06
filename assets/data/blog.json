@@ -1,0 +1,50 @@
+[
+  {
+    "id": "op-wraith",
+    "title": "Operation Wraith: Tracking a Chinese APT's Infrastructure",
+    "category": "redteam",
+    "summary": "OSINT techniques used to map out C2 infrastructure, identify operators, and predict next-gen attack vectors.",
+    "date": "2025-11-28T14:22:00Z",
+    "tags": ["osint", "apt", "infrastructure"]
+  },
+  {
+    "id": "hypervisor-deep",
+    "title": "Deep Dive: The Complete Hypervisor Security Model",
+    "category": "research",
+    "summary": "Examining ring compression, VM exits, and the architectural boundaries that define modern virtualization security.",
+    "date": "2025-11-20T10:55:00Z",
+    "tags": ["hypervisor", "architecture", "security-model"]
+  },
+  {
+    "id": "zero-day-economics",
+    "title": "The Economics of Zero-Day Markets",
+    "category": "blueprint",
+    "summary": "Analysis of how zero-day pricing, broker networks, and nation-state demand shape the vulnerability economy.",
+    "date": "2025-11-12T09:30:00Z",
+    "tags": ["economics", "vulnerability", "markets"]
+  },
+  {
+    "id": "rust-safety-escape",
+    "title": "Escaping Rust's Safety Guarantees Through unsafe{}",
+    "category": "research",
+    "summary": "Common patterns where developers misuse unsafe blocks and practical exploitation techniques.",
+    "date": "2025-11-05T15:18:00Z",
+    "tags": ["rust", "unsafe", "memory-safety"]
+  },
+  {
+    "id": "ai-adversarial-defense",
+    "title": "AI Systems as Attack Surface: Adversarial Input Design",
+    "category": "blueprint",
+    "summary": "Methodology for crafting adversarial inputs against ML-based security systems and detection evasion.",
+    "date": "2025-10-28T12:00:00Z",
+    "tags": ["ai", "adversarial", "evasion"]
+  },
+  {
+    "id": "supply-chain-backdoors",
+    "title": "Supply Chain Attacks: From npm to Production",
+    "category": "redteam",
+    "summary": "Complete overview of typosquatting, dependency confusion, and maintainer impersonation attacks.",
+    "date": "2025-10-15T08:45:00Z",
+    "tags": ["supply-chain", "dependencies", "malware"]
+  }
+]

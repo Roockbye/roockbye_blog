@@ -1,0 +1,15 @@
+{
+  "name": "roockbye-blog",
+  "version": "1.0.0",
+  "description": "Secure cyberpunk blog – static site hosted on GitHub Pages",
+  "private": true,
+  "keywords": [
+    "blog",
+    "security",
+    "cyberpunk",
+    "writeups",
+    "github-pages"
+  ],
+  "author": "roockbye",
+  "license": "MIT"
+}

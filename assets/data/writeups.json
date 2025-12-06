@@ -1,0 +1,64 @@
+[
+  {
+    "id": "hypervisor",
+    "title": "Hypervisor Escape via Memory Corruption",
+    "category": "kernel",
+    "difficulty": "hard",
+    "summary": "Deep dive into exploiting memory safety vulnerabilities in virtualization layers. Covers heap spray techniques and register state manipulation.",
+    "tags": ["kernel", "memory", "exploitation"],
+    "hash": "sha512:a1b2c3d4e5f6",
+    "mitigations": [
+      "Enable SMEP/SMAP in BIOS",
+      "Use SLUB allocator hardening",
+      "Apply kernel patches for CVE-XXXX-XXXXX"
+    ],
+    "date": "2025-11-15T14:30:00Z"
+  },
+  {
+    "id": "cipher-veins",
+    "title": "Cryptographic Side-Channels in AES-NI",
+    "category": "crypto",
+    "difficulty": "hard",
+    "summary": "Analyzing cache timing attacks against hardware-accelerated AES implementations. Demonstrates practical key recovery.",
+    "tags": ["crypto", "timing-attack", "aes"],
+    "hash": "sha512:f6e5d4c3b2a1",
+    "mitigations": [
+      "Use constant-time crypto libraries",
+      "Disable branch prediction for sensitive code",
+      "Implement cache-line padding"
+    ],
+    "date": "2025-10-22T09:15:00Z"
+  },
+  {
+    "id": "silo-rain",
+    "title": "SSRF Attack Chain: Cloud Metadata to RCE",
+    "category": "web",
+    "difficulty": "medium",
+    "summary": "Complete exploitation walkthrough from SSRF to AWS IAM credential theft to container escape.",
+    "tags": ["ssrf", "cloud", "rce"],
+    "hash": "sha512:7890abcdef1234",
+    "mitigations": [
+      "Block access to 169.254.169.254",
+      "Use IMDSv2 with session tokens",
+      "Implement egress filtering",
+      "Run containers with restricted IAM roles"
+    ],
+    "date": "2025-09-10T16:45:00Z"
+  },
+  {
+    "id": "gpu-hijack",
+    "title": "GPU Memory Covert Channels in Multi-tenant Systems",
+    "category": "system",
+    "difficulty": "hard",
+    "summary": "Exploring implicit flows through shared GPU resources to leak data across VM boundaries.",
+    "tags": ["gpu", "covert-channel", "vm-escape"],
+    "hash": "sha512:xyz789uvw123",
+    "mitigations": [
+      "Isolate GPU contexts per tenant",
+      "Clear GPU memory between jobs",
+      "Use GPU scheduling fairness mechanisms",
+      "Monitor for timing anomalies"
+    ],
+    "date": "2025-08-03T11:20:00Z"
+  }
+]

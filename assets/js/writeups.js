@@ -1,7 +1,8 @@
 (() => {
   'use strict';
 
-  const writeups = [
+  // Fallback data si l'API est indisponible
+  const fallbackWriteups = [
     {
       id: 'hypervisor',
       title: 'Hypervisor Poisoning',
@@ -118,10 +119,19 @@
 
         const meta = document.createElement('div');
         meta.className = 'card-meta';
-        meta.innerHTML = `
-          <span>${item.category}</span>
-          <span>${difficultyLabel[item.difficulty] || item.difficulty}</span>
-          <span>${item.hash}</span>`;
+        
+        const categorySpan = document.createElement('span');
+        categorySpan.textContent = item.category;
+        meta.appendChild(categorySpan);
+        
+        const difficultySpan = document.createElement('span');
+        difficultySpan.textContent = difficultyLabel[item.difficulty] || item.difficulty;
+        meta.appendChild(difficultySpan);
+        
+        const hashSpan = document.createElement('span');
+        hashSpan.textContent = item.hash;
+        meta.appendChild(hashSpan);
+        
         card.appendChild(meta);
 
         const summary = document.createElement('p');
@@ -211,7 +221,29 @@
       applyFilters();
     });
 
-    render(writeups);
+    // Charger les writeups depuis l'API
+    async function loadWriteups() {
+      try {
+        const api = window.RBApi;
+        if (!api) {
+          console.warn('API not available, using fallback data');
+          render(fallbackWriteups);
+          return;
+        }
+
+        const response = await api.getWriteups();
+        if (response.success && response.data) {
+          render(response.data);
+        } else {
+          render(fallbackWriteups);
+        }
+      } catch (error) {
+        console.error('Failed to load writeups:', error);
+        render(fallbackWriteups);
+      }
+    }
+
+    loadWriteups();
   }
 
   document.addEventListener('DOMContentLoaded', init);

@@ -1,7 +1,8 @@
 (() => {
   'use strict';
 
-  const posts = [
+  // Fallback data si l'API est indisponible
+  const fallbackPosts = [
     {
       id: 'op-wraith',
       title: 'Opération Wraith Pulse',
@@ -79,9 +80,15 @@
 
         const header = document.createElement('div');
         header.className = 'card-meta';
-        header.innerHTML = `
-          <span>${toolkit.formatDate(post.date)}</span>
-          <span>${post.category}</span>`;
+        
+        const dateSpan = document.createElement('span');
+        dateSpan.textContent = toolkit.formatDate(post.date);
+        header.appendChild(dateSpan);
+        
+        const categorySpan = document.createElement('span');
+        categorySpan.textContent = post.category;
+        header.appendChild(categorySpan);
+        
         article.appendChild(header);
 
         const title = document.createElement('h3');
@@ -157,7 +164,29 @@
       applyFilters();
     });
 
-    render(posts);
+    // Charger les posts depuis l'API
+    async function loadBlogPosts() {
+      try {
+        const api = window.RBApi;
+        if (!api) {
+          console.warn('API not available, using fallback data');
+          render(fallbackPosts);
+          return;
+        }
+
+        const response = await api.getBlogPosts();
+        if (response.success && response.data) {
+          render(response.data);
+        } else {
+          render(fallbackPosts);
+        }
+      } catch (error) {
+        console.error('Failed to load blog posts:', error);
+        render(fallbackPosts);
+      }
+    }
+
+    loadBlogPosts();
   }
 
   document.addEventListener('DOMContentLoaded', init);
