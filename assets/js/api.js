@@ -10,7 +10,7 @@
       if (writeupsCache) return { data: writeupsCache, count: writeupsCache.length };
       
       try {
-        const response = await fetch('/assets/data/writeups.json');
+        const response = await fetch('./assets/data/writeups.json');
         if (!response.ok) throw new Error('Failed to load writeups');
         writeupsCache = await response.json();
         return { data: writeupsCache, count: writeupsCache.length };
@@ -31,7 +31,7 @@
       if (blogCache) return { data: blogCache, count: blogCache.length };
       
       try {
-        const response = await fetch('/assets/data/blog.json');
+        const response = await fetch('./assets/data/blog.json');
         if (!response.ok) throw new Error('Failed to load blog posts');
         blogCache = await response.json();
         return { data: blogCache, count: blogCache.length };
