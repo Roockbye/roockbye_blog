@@ -13,99 +13,189 @@ const crypto = require('crypto');
 
 // Simple markdown to HTML converter
 function markdownToHtml(markdown) {
-  let html = markdown;
+  // Split into lines for processing
+  const lines = markdown.split('\n');
+  const result = [];
+  let i = 0;
 
-  // Code blocks (triple backticks)
-  html = html.replace(/```(?:[\w]*\n)?([\s\S]*?)```/g, (match, code) => {
+  // Process code blocks first (preserve them)
+  const preservedBlocks = [];
+  let processed = markdown;
+  
+  processed = processed.replace(/```(?:[\w]*\n)?([\s\S]*?)```/g, (match, code) => {
     const escaped = code.trim().replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    return `\n<pre><code>${escaped}</code></pre>\n`;
+    const placeholder = `__CODEBLOCK_${preservedBlocks.length}__`;
+    preservedBlocks.push(`<pre><code>${escaped}</code></pre>`);
+    return placeholder;
   });
 
-  // Inline code (before other replacements)
-  html = html.replace(/`([^`\n]+)`/g, '<code>$1</code>');
-
-  // Headers (must be done in order, largest first)
-  html = html.replace(/^#### (.*?)$/gm, '<h4>$1</h4>');
-  html = html.replace(/^### (.*?)$/gm, '<h3>$1</h3>');
-  html = html.replace(/^## (.*?)$/gm, '<h2>$1</h2>');
-  html = html.replace(/^# (.*?)$/gm, '<h1>$1</h1>');
-
-  // Bold (before italic to avoid conflicts)
-  html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-  html = html.replace(/__([^_]+)__/g, '<strong>$1</strong>');
-
-  // Italic
-  html = html.replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
-  html = html.replace(/_([^_\n]+)_/g, '<em>$1</em>');
-
-  // Blockquotes
-  html = html.replace(/^> (.*?)$/gm, '<blockquote>$1</blockquote>');
-
-  // Lists - handle both ordered and unordered
-  const lines = html.split('\n');
-  let result = [];
+  // Now process line by line
+  const processedLines = processed.split('\n');
   let inUnorderedList = false;
   let inOrderedList = false;
+  let buffer = '';
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-    
-    // Unordered list items
-    if (line.match(/^[-*]\s+/)) {
-      if (!inUnorderedList) {
-        result.push('<ul>');
-        inUnorderedList = true;
-      }
-      if (inOrderedList) {
-        result.push('</ol>');
-        inOrderedList = false;
-      }
-      result.push('<li>' + line.replace(/^[-*]\s+/, '') + '</li>');
-    }
-    // Ordered list items
-    else if (line.match(/^\d+\.\s+/)) {
-      if (!inOrderedList) {
-        result.push('<ol>');
-        inOrderedList = true;
+  for (let i = 0; i < processedLines.length; i++) {
+    let line = processedLines[i];
+
+    // Headers
+    if (line.match(/^#{1,4}\s+/)) {
+      if (buffer.trim()) {
+        result.push(wrapParagraph(buffer));
+        buffer = '';
       }
       if (inUnorderedList) {
         result.push('</ul>');
         inUnorderedList = false;
       }
-      result.push('<li>' + line.replace(/^\d+\.\s+/, '') + '</li>');
+      if (inOrderedList) {
+        result.push('</ol>');
+        inOrderedList = false;
+      }
+      
+      const match = line.match(/^(#{1,4})\s+(.*)/);
+      const level = match[1].length;
+      const text = processFormatting(match[2]);
+      result.push(`<h${level}>${text}</h${level}>`);
+      continue;
     }
-    // End lists on empty line or new content
-    else {
-      if (inUnorderedList && line.trim()) {
+
+    // Code blocks (preserved)
+    if (line.includes('__CODEBLOCK_')) {
+      if (buffer.trim()) {
+        result.push(wrapParagraph(buffer));
+        buffer = '';
+      }
+      if (inUnorderedList) {
         result.push('</ul>');
         inUnorderedList = false;
       }
-      if (inOrderedList && line.trim()) {
+      if (inOrderedList) {
         result.push('</ol>');
         inOrderedList = false;
       }
       result.push(line);
+      continue;
     }
+
+    // Blockquotes
+    if (line.match(/^>\s+/)) {
+      if (buffer.trim()) {
+        result.push(wrapParagraph(buffer));
+        buffer = '';
+      }
+      if (inUnorderedList) {
+        result.push('</ul>');
+        inUnorderedList = false;
+      }
+      if (inOrderedList) {
+        result.push('</ol>');
+        inOrderedList = false;
+      }
+      const text = line.replace(/^>\s+/, '');
+      result.push(`<blockquote>${processFormatting(text)}</blockquote>`);
+      continue;
+    }
+
+    // Unordered list items
+    if (line.match(/^[-*]\s+/)) {
+      if (buffer.trim()) {
+        result.push(wrapParagraph(buffer));
+        buffer = '';
+      }
+      if (inOrderedList) {
+        result.push('</ol>');
+        inOrderedList = false;
+      }
+      if (!inUnorderedList) {
+        result.push('<ul>');
+        inUnorderedList = true;
+      }
+      const text = line.replace(/^[-*]\s+/, '');
+      result.push(`<li>${processFormatting(text)}</li>`);
+      continue;
+    }
+
+    // Ordered list items
+    if (line.match(/^\d+\.\s+/)) {
+      if (buffer.trim()) {
+        result.push(wrapParagraph(buffer));
+        buffer = '';
+      }
+      if (inUnorderedList) {
+        result.push('</ul>');
+        inUnorderedList = false;
+      }
+      if (!inOrderedList) {
+        result.push('<ol>');
+        inOrderedList = true;
+      }
+      const text = line.replace(/^\d+\.\s+/, '');
+      result.push(`<li>${processFormatting(text)}</li>`);
+      continue;
+    }
+
+    // Empty line
+    if (!line.trim()) {
+      if (buffer.trim()) {
+        result.push(wrapParagraph(buffer));
+        buffer = '';
+      }
+      if (inUnorderedList) {
+        result.push('</ul>');
+        inUnorderedList = false;
+      }
+      if (inOrderedList) {
+        result.push('</ol>');
+        inOrderedList = false;
+      }
+      continue;
+    }
+
+    // Regular paragraph text
+    buffer += (buffer ? ' ' : '') + line;
   }
 
-  // Close any unclosed lists
-  if (inUnorderedList) result.push('</ul>');
-  if (inOrderedList) result.push('</ol>');
+  // Flush remaining buffer
+  if (buffer.trim()) {
+    result.push(wrapParagraph(buffer));
+  }
+  if (inUnorderedList) {
+    result.push('</ul>');
+  }
+  if (inOrderedList) {
+    result.push('</ol>');
+  }
 
-  html = result.join('\n');
+  let html = result.join('\n');
 
-  // Wrap paragraphs - be careful not to wrap existing HTML elements
-  const paras = html.split('\n\n');
-  html = paras.map(para => {
-    para = para.trim();
-    // Don't wrap if already HTML
-    if (!para || para.match(/^<[a-z]/i) || para.match(/^<\/[a-z]/i)) {
-      return para;
-    }
-    return `<p>${para}</p>`;
-  }).join('\n\n');
+  // Restore code blocks
+  preservedBlocks.forEach((block, i) => {
+    html = html.replace(`__CODEBLOCK_${i}__`, block);
+  });
 
   return html;
+}
+
+function processFormatting(text) {
+  // Inline code
+  text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+  
+  // Bold
+  text = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  text = text.replace(/__([^_]+)__/g, '<strong>$1</strong>');
+  
+  // Italic
+  text = text.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+  text = text.replace(/_([^_]+)_/g, '<em>$1</em>');
+  
+  return text;
+}
+
+function wrapParagraph(text) {
+  text = text.trim();
+  if (!text) return '';
+  return `<p>${processFormatting(text)}</p>`;
 }
 
 // Parse YAML frontmatter from markdown
