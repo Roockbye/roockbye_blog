@@ -212,6 +212,12 @@
       (() => {
         'use strict';
 
+        function sanitizeHtml(text) {
+          const div = document.createElement('div');
+          div.textContent = text;
+          return div.innerHTML;
+        }
+
         async function loadWriteup() {
           const container = document.getElementById('writeup-container');
           
@@ -224,12 +230,18 @@
           }
 
           try {
-            const api = window.RBApi;
-            if (!api) {
+            // Wait for API to be available
+            let attempts = 0;
+            while (!window.RBApi && attempts < 50) {
+              await new Promise(r => setTimeout(r, 100));
+              attempts++;
+            }
+
+            if (!window.RBApi) {
               throw new Error('API not available');
             }
 
-            const writeup = await api.getWriteupById(id);
+            const writeup = await window.RBApi.getWriteupById(id);
             
             if (!writeup) {
               container.innerHTML = '<div class="error">Writeup non trouvé. <a href="writeups.html">Retour aux writeups</a></div>';
@@ -274,13 +286,12 @@
           }
         }
 
-        function sanitizeHtml(text) {
-          const div = document.createElement('div');
-          div.textContent = text;
-          return div.innerHTML;
+        // Start loading when DOM is ready
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', loadWriteup);
+        } else {
+          loadWriteup();
         }
-
-        document.addEventListener('DOMContentLoaded', loadWriteup);
       })();
     </script>
 </body>
