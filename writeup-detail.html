@@ -230,18 +230,12 @@
           }
 
           try {
-            // Wait for API to be available
-            let attempts = 0;
-            while (!window.RBApi && attempts < 50) {
-              await new Promise(r => setTimeout(r, 100));
-              attempts++;
-            }
-
-            if (!window.RBApi) {
-              throw new Error('API not available');
-            }
-
-            const writeup = await window.RBApi.getWriteupById(id);
+            // Fetch writeups directly from JSON
+            const response = await fetch('assets/data/writeups.json');
+            if (!response.ok) throw new Error('Failed to load writeups');
+            
+            const writeups = await response.json();
+            const writeup = writeups.find(w => w.id === id);
             
             if (!writeup) {
               container.innerHTML = '<div class="error">Writeup non trouvé. <a href="writeups.html">Retour aux writeups</a></div>';
