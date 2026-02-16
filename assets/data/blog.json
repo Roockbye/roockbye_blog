@@ -25,53 +25,5 @@
     "content": "<h2>The Wi-Fi Beacon Time-Shift Trick</h2><p>This attack targets something most people never think about: <strong>the way Wi-Fi access points use an internal timestamp to prove they're the most synchronized node on the network</strong>. By manipulating a single field in an 802.11 beacon frame, an attacker can force a client to silently leave a legitimate AP and connect to a rogue one — without deauthentication, without brute-force, and without any visibly malicious packet.</p><h2>1 — How 802.11 Roaming Actually Works</h2><p>In a Wi-Fi network, access points constantly broadcast small management frames called <strong>beacons</strong> — roughly <strong>10 times per second</strong> (every 100 ms). These beacons announce the AP's presence and carry essential metadata:</p><ul><li>SSID (network name)</li><li>BSSID (AP hardware address)</li><li>Channel</li><li>Capabilities</li><li><strong>TSF — Timing Synchronization Function</strong></li></ul><p>Beacons are sent <strong>in the clear</strong>, are <strong>unsigned</strong>, <strong>unauthenticated</strong>, and treated as purely informational.</p><h3>The TSF Timestamp</h3><p>Every beacon contains a 64-bit counter called the <strong>TSF (Timing Synchronization Function)</strong>. It increments at 1 MHz and represents the AP's internal clock — not real-world time, just a monotonically increasing metronome.</p><p>Why does it matter? Because the TSF is used to <strong>keep devices synchronized</strong>. The higher the timestamp, the more the AP is considered:</p><ul><li>Stable</li><li>Well-synchronized</li><li>A strong candidate for connection</li></ul><p>In many firmware implementations, the TSF influences:</p><ul><li>AP selection during roaming</li><li>Opportunistic roaming decisions</li><li>PMK cache management</li><li>Handoff triggering</li></ul><p><strong>And the TSF is neither signed nor verified. It's just a number.</strong></p><h2>2 — The Vulnerability: The Time-Shift Trick</h2><p>The attack exploits a subtle but real behavior in certain 802.11 roaming implementations: <strong>they treat a higher TSF value as evidence of a \"better\" access point</strong>. This is a side-effect of a design that's over 20 years old.</p><p>Here's the attack sequence:</p><ol><li>The attacker creates a rogue AP with the <strong>same SSID</strong> as the legitimate network (no need to spoof the BSSID).</li><li>They passively listen to legitimate beacons and replicate everything: channel, capabilities, Information Elements, rates, QoS, DTIM period, beacon interval.</li><li>They modify <strong>only the TSF timestamp</strong> — shifting it slightly ahead (a few milliseconds to a few seconds).</li><li>They broadcast these forged beacons at a slightly faster interval.</li><li>The client receives both sets of beacons. From its perspective, the attacker's AP appears \"fresher\", \"better synchronized\", and therefore <strong>preferable</strong>.</li><li>Certain implementations <strong>automatically roam</strong> to the rogue AP — without any user interaction.</li><li>Once connected to the rogue AP, the attacker achieves full man-in-the-middle position.</li></ol><p>All of this happens <strong>without deauthentication frames, without active attacks</strong> — nothing that resembles a traditional Wi-Fi exploit.</p><h2>3 — What an Attacker Can Do</h2><p>Once the client connects to the rogue AP, the possibilities are significant:</p><h3>Full MITM (even under WPA2/WPA3)</h3><p>The 4-way handshake runs through the attacker's AP, giving them a privileged position in the connection.</p><h3>Encryption Downgrade</h3><p>Some clients still accept WPA2 when WPA3 fails — especially in transition mode. The rogue AP can exploit this fallback behavior.</p><h3>Handshake Capture</h3><p>The attacker captures the WPA handshake for offline brute-force or PMK derivation.</p><h3>Traffic Injection</h3><p>DNS manipulation, HTTP redirects, proxy injection — the classic MITM toolkit becomes available.</p><h3>Enterprise Attack Surface</h3><ul><li>Session token theft</li><li>OIDC interception</li><li>Kerberos relay over Wi-Fi</li><li>Data exfiltration</li><li>Internal traffic analysis</li></ul><h3>No Visible Deauthentication</h3><p>The roaming looks completely natural — indistinguishable from a legitimate handoff.</p><h2>4 — Why It's Nearly Undetectable</h2><p>This is what makes the attack particularly dangerous: <strong>it uses no malicious packets</strong>.</p><p>It triggers:</p><ul><li>No deauthentication alerts</li><li>No BSSID spoofing alerts</li><li>No ARP spoofing alerts</li><li>No WPA/WPS attack signatures</li><li>No brute-force detection</li></ul><p>The attack uses only <strong>beacon frames — management frames that are normally unsecured by design</strong>. The client's roaming behavior looks like a natural handoff driven by a \"more reliable\" TSF value.</p><p>No wireless IDS detects this by default.</p><h2>5 — Detection Through Side Effects</h2><p>You can't detect the forged beacon directly. But you <strong>can</strong> detect what it causes:</p><h3>TSF Drift</h3><p>An abnormal gap between the AP's expected timestamp and the one perceived by the client.</p><h3>Roaming Without RSSI Change</h3><p>The client switches APs but the signal strength hasn't actually changed — suspicious.</p><h3>Out-of-Sequence PMK Derivation</h3><p>The client initiates a PMK exchange that the legitimate AP never requested.</p><h3>Unknown but \"Perfectly Synced\" BSSID</h3><p>A new AP appears with a suspiciously clean TSF — never seen before but behaving as if it's been running for hours.</p><h3>Abnormal Beacon Rate</h3><p>Beacons arriving more frequently than the legitimate AP (e.g., 80 ms instead of 100 ms).</p><h3>DHCP/DNS Anomalies Post-Roaming</h3><p>A classic indicator of MITM — new DHCP lease or DNS resolution changes right after a roaming event.</p><h2>6 — Mitigations</h2><ul><li><strong>WPA3 with Protected Management Frames (PMF)</strong> — Beacons remain unprotected, but reassociation frames are secured.</li><li><strong>BSSID whitelisting</strong> — Force clients to only connect to known BSSIDs, not just matching SSIDs.</li><li><strong>Reduce opportunistic roaming aggressiveness</strong> — Some clients roam too eagerly; tuning thresholds helps.</li><li><strong>TSF anomaly detection</strong> — Already present in some Cisco/Aruba firmware, flags abnormally high TSF values.</li><li><strong>Wireless IDS with TSF drift monitoring</strong> — Rare but available in enterprise-grade hardware.</li><li><strong>Fixed beacon interval enforcement</strong> — Prevents attackers from gaining an advantage through faster beacon rates.</li></ul><h2>The Bottom Line</h2><p>Wi-Fi security is built on cryptography — but <strong>the choice of which AP to connect to relies on a simple, unsigned clock counter</strong>. As long as that counter isn't cryptographically protected, an attacker can become the most \"synchronized\" AP on the network and silently take control.</p><p>The rogue AP doesn't lie. It just says: <strong>\"Check the time — I'm ahead.\"</strong></p><p>Hardware cost: under $20. An ESP32, a monitor-mode chipset, and a few lines of Scapy.</p>",
     "date": "2025-06-15T14:00:00Z",
     "tags": ["wifi", "802.11", "roaming", "beacon", "MITM", "TSF", "wireless-security"]
-  },
-  {
-    "id": "op-wraith",
-    "title": "Operation Wraith: Tracking a Chinese APT's Infrastructure",
-    "category": "redteam",
-    "summary": "OSINT techniques used to map out C2 infrastructure, identify operators, and predict next-gen attack vectors.",
-    "date": "2025-11-28T14:22:00Z",
-    "tags": ["osint", "apt", "infrastructure"]
-  },
-  {
-    "id": "hypervisor-deep",
-    "title": "Deep Dive: The Complete Hypervisor Security Model",
-    "category": "research",
-    "summary": "Examining ring compression, VM exits, and the architectural boundaries that define modern virtualization security.",
-    "date": "2025-11-20T10:55:00Z",
-    "tags": ["hypervisor", "architecture", "security-model"]
-  },
-  {
-    "id": "zero-day-economics",
-    "title": "The Economics of Zero-Day Markets",
-    "category": "blueprint",
-    "summary": "Analysis of how zero-day pricing, broker networks, and nation-state demand shape the vulnerability economy.",
-    "date": "2025-11-12T09:30:00Z",
-    "tags": ["economics", "vulnerability", "markets"]
-  },
-  {
-    "id": "rust-safety-escape",
-    "title": "Escaping Rust's Safety Guarantees Through unsafe{}",
-    "category": "research",
-    "summary": "Common patterns where developers misuse unsafe blocks and practical exploitation techniques.",
-    "date": "2025-11-05T15:18:00Z",
-    "tags": ["rust", "unsafe", "memory-safety"]
-  },
-  {
-    "id": "ai-adversarial-defense",
-    "title": "AI Systems as Attack Surface: Adversarial Input Design",
-    "category": "blueprint",
-    "summary": "Methodology for crafting adversarial inputs against ML-based security systems and detection evasion.",
-    "date": "2025-10-28T12:00:00Z",
-    "tags": ["ai", "adversarial", "evasion"]
-  },
-  {
-    "id": "supply-chain-backdoors",
-    "title": "Supply Chain Attacks: From npm to Production",
-    "category": "redteam",
-    "summary": "Complete overview of typosquatting, dependency confusion, and maintainer impersonation attacks.",
-    "date": "2025-10-15T08:45:00Z",
-    "tags": ["supply-chain", "dependencies", "malware"]
   }
 ]
