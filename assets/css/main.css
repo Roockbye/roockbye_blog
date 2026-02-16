@@ -335,6 +335,8 @@ button {
   box-shadow: 0 0 15px rgba(0, 217, 255, 0.3), inset 0 0 10px rgba(0, 217, 255, 0.05);
   font-size: 0.9rem;
   min-height: 320px;
+  position: relative;
+  overflow: hidden;
 }
 
 .terminal-header {
@@ -363,6 +365,45 @@ button {
   gap: 12px;
   color: var(--text-muted);
   margin-bottom: 8px;
+}
+
+.terminal-logs {
+  position: absolute;
+  bottom: 16px;
+  right: 24px;
+  text-align: right;
+  overflow: hidden;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  line-height: 1.7;
+  pointer-events: none;
+  user-select: none;
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 25%, #000 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 25%, #000 100%);
+}
+
+.terminal-logs .log-line {
+  opacity: 0;
+  animation: logFadeIn 0.3s ease forwards;
+  white-space: nowrap;
+}
+
+.terminal-logs .log-tag {
+  font-weight: 700;
+}
+
+.terminal-logs .log-tag[data-level="ok"]   { color: var(--accent); }
+.terminal-logs .log-tag[data-level="info"] { color: var(--cyan); }
+.terminal-logs .log-tag[data-level="warn"] { color: #ffb800; }
+.terminal-logs .log-tag[data-level="fail"] { color: var(--primary); }
+
+.terminal-logs .log-msg {
+  color: var(--text-muted);
+}
+
+@keyframes logFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 0.7; transform: translateY(0); }
 }
 
 .section-heading {

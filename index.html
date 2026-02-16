@@ -58,7 +58,7 @@
             </div>
             <div class="terminal-line">
               <span>&gt;</span>
-              <span>cybersecurity enthusiast</span>
+              <span>Cybersecurity enthusiast</span>
             </div>
             <div class="terminal-line">
               <span>&gt;</span>
@@ -66,11 +66,13 @@
             </div>
             <div class="terminal-line">
               <span>&gt;</span>
-              <span>cybersecurity student</span>
+              <span>Cybersecurity student</span>
             </div>
             <div class="terminal-line">
               <span>&gt;</span>
-              <span>analyst MDR</span>
+              <span>Analyst MDR</span>
+            </div>
+            <div class="terminal-logs" aria-hidden="true" id="terminal-logs"></div>
             </div>
           </div>
         </div>
@@ -128,6 +130,63 @@
     <script src="assets/js/api.js" defer></script>
     <script defer>
       document.addEventListener('DOMContentLoaded', async () => {
+        // --- Scrolling terminal logs ---
+        const logsEl = document.getElementById('terminal-logs');
+        if (logsEl) {
+          const logs = [
+            ['ok',   'port scan complete — 3 open'],
+            ['info', 'loading exploit module...'],
+            ['ok',   'reverse shell established'],
+            ['warn', 'IDS evasion — rotating proxy'],
+            ['info', 'enumerating /etc/shadow'],
+            ['ok',   'hash extracted — cracking...'],
+            ['fail', 'brute-force blocked by WAF'],
+            ['info', 'switching to SQLi vector'],
+            ['ok',   'authentication bypassed'],
+            ['warn', 'session token expires in 30s'],
+            ['info', 'pivoting to internal subnet'],
+            ['ok',   'credentials dumped — 12 entries'],
+            ['fail', 'connection reset by peer'],
+            ['info', 'retrying on port 8443...'],
+            ['ok',   'TLS handshake intercepted'],
+            ['warn', 'anomalous traffic detected'],
+            ['ok',   'flag captured — submitting...'],
+            ['info', 'cleaning up artifacts...'],
+            ['ok',   'persistence implant deployed'],
+            ['fail', 'honeypot detected — aborting'],
+            ['info', 'scanning adjacent hosts...'],
+            ['ok',   'privilege escalation successful'],
+            ['warn', 'memory forensics in progress'],
+            ['ok',   'lateral movement complete'],
+          ];
+          const MAX_LINES = 6;
+          let idx = 0;
+          const addLog = () => {
+            const [level, msg] = logs[idx % logs.length];
+            const line = document.createElement('div');
+            line.className = 'log-line';
+            const tag = document.createElement('span');
+            tag.className = 'log-tag';
+            tag.setAttribute('data-level', level);
+            tag.textContent = '[' + level.toUpperCase() + ']';
+            const txt = document.createElement('span');
+            txt.className = 'log-msg';
+            txt.textContent = ' ' + msg;
+            line.append(tag, txt);
+            logsEl.appendChild(line);
+            if (logsEl.children.length > MAX_LINES) {
+              logsEl.removeChild(logsEl.firstChild);
+            }
+            idx++;
+          };
+          // Fill initial lines quickly
+          for (let i = 0; i < MAX_LINES; i++) {
+            addLog();
+          }
+          setInterval(addLog, 2200);
+        }
+
+        // --- Latest signals ---
         const grid = document.getElementById('latest-signals');
         if (!grid || !window.RBApi) return;
         try {
