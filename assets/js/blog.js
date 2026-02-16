@@ -11,7 +11,7 @@
       summary: 'Simulation d’APT multi-cloud avec empreintes numériques minimales et egress sur satellite.',
       tags: ['C2', 'Evasion'],
       mitigations: ['Network baselines', 'UEBA renforcé'],
-      link: '#op-wraith'
+      link: 'blog-detail.html#op-wraith'
     },
     {
       id: 'hypervisor',
@@ -21,7 +21,7 @@
       summary: 'Reverse engineering complet de la VRAM partagée et sideload de payloads persistants.',
       tags: ['Cloud', 'Virtualisation'],
       mitigations: ['Secure boot chain', 'Attestation continue'],
-      link: '#hypervisor'
+      link: 'blog-detail.html#hypervisor'
     },
     {
       id: 'blue-glass',
@@ -31,7 +31,7 @@
       summary: 'Playbook côté blue team pour détecter les extractions LSASS même chiffrées.',
       tags: ['Detection'],
       mitigations: ['YARA live', 'ETW hardening'],
-      link: '#blue-glass'
+      link: 'blog-detail.html#blue-glass'
     },
     {
       id: 'silo-rain',
@@ -41,7 +41,7 @@
       summary: 'Chaîne SSRF → exfiltration hermétique, avec nouveaux contremesures Terraform.',
       tags: ['Cloud'],
       mitigations: ['Metadata sanitize', 'Secrets rotation'],
-      link: '#silo-rain'
+      link: 'blog-detail.html#silo-rain'
     }
   ];
 
@@ -122,9 +122,10 @@
         const footer = document.createElement('div');
         footer.className = 'post-footer';
         const link = document.createElement('a');
-        link.href = post.link || '#';
+        link.href = 'blog-detail.html#' + post.id;
         link.className = 'link-arrow';
         link.textContent = 'Voir les détails';
+        link.setAttribute('rel', 'noopener');
         footer.appendChild(link);
         article.appendChild(footer);
 

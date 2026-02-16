@@ -18,14 +18,23 @@
   }
 
   function renderContentHtml(container, html) {
-    // Content comes from our own writeups.json (trusted source)
+    // Content comes from our own blog.json (trusted source)
     const wrapper = el('div', { className: 'detail-content' });
     wrapper.innerHTML = html;
     container.appendChild(wrapper);
   }
 
-  async function loadWriteup() {
-    const container = document.getElementById('writeup-container');
+  const categoryLabels = {
+    redteam: 'Red Team',
+    research: 'Recherche',
+    blueprint: 'Blueprint',
+    blueteam: 'Blue Team',
+    hardware: 'Hardware',
+    cti: 'CTI'
+  };
+
+  async function loadPost() {
+    const container = document.getElementById('blog-container');
     if (!container) return;
 
     const id = window.location.hash.slice(1);
@@ -33,50 +42,54 @@
     if (!id) {
       container.textContent = '';
       const err = el('div', { className: 'detail-error' });
-      err.textContent = 'Aucun writeup spécifié. ';
-      err.appendChild(el('a', { href: 'writeups.html' }, 'Retour aux writeups'));
+      err.textContent = 'Aucun article spécifié. ';
+      err.appendChild(el('a', { href: 'blog.html' }, 'Retour au blog'));
       container.appendChild(err);
       return;
     }
 
     try {
-      const response = await fetch('assets/data/writeups.json');
+      const response = await fetch('assets/data/blog.json');
       if (!response.ok) throw new Error('Erreur réseau : ' + response.status);
 
-      const writeups = await response.json();
-      const writeup = writeups.find(w => w.id === id);
+      const posts = await response.json();
+      const post = posts.find(p => p.id === id);
 
-      if (!writeup) {
+      if (!post) {
         container.textContent = '';
         const err = el('div', { className: 'detail-error' });
-        err.textContent = 'Writeup non trouvé. ';
-        err.appendChild(el('a', { href: 'writeups.html' }, 'Retour aux writeups'));
+        err.textContent = 'Article non trouvé. ';
+        err.appendChild(el('a', { href: 'blog.html' }, 'Retour au blog'));
         container.appendChild(err);
         return;
       }
 
-      document.title = writeup.title + ' | Roockbye';
+      document.title = post.title + ' | Roockbye';
 
-      // Build the page with DOM
+      // Build page with DOM
       container.textContent = '';
 
       // Header
       const header = el('div', { className: 'detail-header' });
-      header.appendChild(el('h1', { textContent: writeup.title }));
+      header.appendChild(el('h1', { textContent: post.title }));
 
       // Meta
       const meta = el('div', { className: 'detail-meta' });
-      meta.appendChild(el('span', null, '📁 ' + writeup.category));
-      meta.appendChild(el('span', null, '⚔️ ' + writeup.difficulty));
-      if (writeup.date) {
-        meta.appendChild(el('span', null, '📅 ' + new Date(writeup.date).toLocaleDateString('fr-FR')));
+      const catLabel = categoryLabels[post.category] || post.category;
+      meta.appendChild(el('span', null, '📂 ' + catLabel));
+      if (post.date) {
+        const toolkit = window.RBToolkit;
+        const dateStr = toolkit
+          ? toolkit.formatDate(post.date)
+          : new Date(post.date).toLocaleDateString('fr-FR');
+        meta.appendChild(el('span', null, '📅 ' + dateStr));
       }
       header.appendChild(meta);
 
       // Tags
-      if (writeup.tags?.length) {
+      if (post.tags?.length) {
         const tagsRow = el('div', { className: 'detail-tags' });
-        writeup.tags.forEach(t => {
+        post.tags.forEach(t => {
           tagsRow.appendChild(el('span', { className: 'tag', textContent: t }));
         });
         header.appendChild(tagsRow);
@@ -85,32 +98,24 @@
       container.appendChild(header);
 
       // Content
-      if (writeup.content) {
-        renderContentHtml(container, writeup.content);
+      if (post.content) {
+        renderContentHtml(container, post.content);
       } else {
         const noContent = el('div', { className: 'detail-content' });
-        noContent.appendChild(el('p', { textContent: writeup.summary || 'Contenu non disponible.' }));
+        noContent.appendChild(el('p', { textContent: post.summary || 'Contenu non disponible pour le moment.' }));
         container.appendChild(noContent);
       }
 
-      // Mitigations
-      if (writeup.mitigations?.length) {
+      // Mitigations (some blog posts have them)
+      if (post.mitigations?.length) {
         const mitigations = el('div', { className: 'detail-mitigations' });
         mitigations.appendChild(el('h3', { textContent: '🛡️ Mitigations' }));
         const list = el('ul');
-        writeup.mitigations.forEach(m => {
+        post.mitigations.forEach(m => {
           list.appendChild(el('li', { textContent: m }));
         });
         mitigations.appendChild(list);
         container.appendChild(mitigations);
-      }
-
-      // Hash
-      if (writeup.hash) {
-        const hashDiv = el('div', { className: 'detail-hash' });
-        hashDiv.appendChild(el('strong', { textContent: 'Hash : ' }));
-        hashDiv.appendChild(document.createTextNode(writeup.hash));
-        container.appendChild(hashDiv);
       }
 
     } catch (error) {
@@ -121,8 +126,8 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', loadWriteup);
+  document.addEventListener('DOMContentLoaded', loadPost);
 
   // Handle hash changes (back/forward navigation)
-  window.addEventListener('hashchange', loadWriteup);
+  window.addEventListener('hashchange', loadPost);
 })();
