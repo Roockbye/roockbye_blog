@@ -84,26 +84,7 @@
             <span aria-hidden="true">→</span>
           </a>
         </div>
-        <div class="cards-grid">
-          <article class="card">
-            <span class="badge">Red Team</span>
-            <h3>Operation Wraith Pulse</h3>
-            <p>Field notes, evasion plans and remediation for blue teams.</p>
-            <a class="link-arrow" href="blog-detail.html#op-wraith">Read</a>
-          </article>
-          <article class="card">
-            <span class="badge" data-tone="accent">Research</span>
-            <h3>Hypervisor Poisoning</h3>
-            <p>PoC of an attack chain targeting shared memory in hypervisors.</p>
-            <a class="link-arrow" href="writeup-detail.html#hypervisor">Explore</a>
-          </article>
-          <article class="card">
-            <span class="badge">Community</span>
-            <h3>Challenges & talks</h3>
-            <p>Info about my workshops, talks and open bounties.</p>
-            <a class="link-arrow" href="about.html#agenda">Join</a>
-          </article>
-        </div>
+        <div class="cards-grid" id="latest-signals"></div>
       </section>
 
       <section class="container">
@@ -144,5 +125,41 @@
     </footer>
 
     <script src="assets/js/site.js" defer></script>
+    <script src="assets/js/api.js" defer></script>
+    <script defer>
+      document.addEventListener('DOMContentLoaded', async () => {
+        const grid = document.getElementById('latest-signals');
+        if (!grid || !window.RBApi) return;
+        try {
+          const { data } = await RBApi.getBlogPosts();
+          const posts = data.slice(0, 3);
+          const toneMap = { research: 'accent', redteam: '', blueprint: 'cyan' };
+          posts.forEach(post => {
+            const card = document.createElement('article');
+            card.className = 'card';
+            const badge = document.createElement('span');
+            badge.className = 'badge';
+            const tone = toneMap[post.category] || '';
+            if (tone) badge.setAttribute('data-tone', tone);
+            badge.textContent = post.category;
+            const h3 = document.createElement('h3');
+            h3.textContent = post.title;
+            const p = document.createElement('p');
+            const maxLen = 90;
+            p.textContent = post.summary.length > maxLen
+              ? post.summary.substring(0, maxLen).trimEnd() + '…'
+              : post.summary;
+            const a = document.createElement('a');
+            a.className = 'link-arrow';
+            a.href = 'blog-detail.html#' + post.id;
+            a.textContent = 'Read';
+            card.append(badge, h3, p, a);
+            grid.appendChild(card);
+          });
+        } catch (e) {
+          console.error('Failed to load latest signals:', e);
+        }
+      });
+    </script>
   </body>
 </html>
