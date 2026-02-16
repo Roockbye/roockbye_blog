@@ -26,7 +26,7 @@
 
   const categoryLabels = {
     redteam: 'Red Team',
-    research: 'Recherche',
+    research: 'Research',
     blueprint: 'Blueprint',
     blueteam: 'Blue Team',
     hardware: 'Hardware',
@@ -42,15 +42,15 @@
     if (!id) {
       container.textContent = '';
       const err = el('div', { className: 'detail-error' });
-      err.textContent = 'Aucun article spécifié. ';
-      err.appendChild(el('a', { href: 'blog.html' }, 'Retour au blog'));
+      err.textContent = 'No article specified. ';
+      err.appendChild(el('a', { href: 'blog.html' }, 'Back to blog'));
       container.appendChild(err);
       return;
     }
 
     try {
       const response = await fetch('assets/data/blog.json');
-      if (!response.ok) throw new Error('Erreur réseau : ' + response.status);
+      if (!response.ok) throw new Error('Network error: ' + response.status);
 
       const posts = await response.json();
       const post = posts.find(p => p.id === id);
@@ -58,8 +58,8 @@
       if (!post) {
         container.textContent = '';
         const err = el('div', { className: 'detail-error' });
-        err.textContent = 'Article non trouvé. ';
-        err.appendChild(el('a', { href: 'blog.html' }, 'Retour au blog'));
+        err.textContent = 'Article not found. ';
+        err.appendChild(el('a', { href: 'blog.html' }, 'Back to blog'));
         container.appendChild(err);
         return;
       }
@@ -81,7 +81,7 @@
         const toolkit = window.RBToolkit;
         const dateStr = toolkit
           ? toolkit.formatDate(post.date)
-          : new Date(post.date).toLocaleDateString('fr-FR');
+          : new Date(post.date).toLocaleDateString('en-US');
         meta.appendChild(el('span', null, '📅 ' + dateStr));
       }
       header.appendChild(meta);
@@ -102,7 +102,7 @@
         renderContentHtml(container, post.content);
       } else {
         const noContent = el('div', { className: 'detail-content' });
-        noContent.appendChild(el('p', { textContent: post.summary || 'Contenu non disponible pour le moment.' }));
+        noContent.appendChild(el('p', { textContent: post.summary || 'Content not available yet.' }));
         container.appendChild(noContent);
       }
 
@@ -121,7 +121,7 @@
     } catch (error) {
       container.textContent = '';
       const err = el('div', { className: 'detail-error' });
-      err.textContent = 'Erreur lors du chargement : ' + error.message;
+      err.textContent = 'Error loading: ' + error.message;
       container.appendChild(err);
     }
   }

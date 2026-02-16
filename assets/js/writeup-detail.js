@@ -33,15 +33,15 @@
     if (!id) {
       container.textContent = '';
       const err = el('div', { className: 'detail-error' });
-      err.textContent = 'Aucun writeup spécifié. ';
-      err.appendChild(el('a', { href: 'writeups.html' }, 'Retour aux writeups'));
+      err.textContent = 'No writeup specified. ';
+      err.appendChild(el('a', { href: 'writeups.html' }, 'Back to writeups'));
       container.appendChild(err);
       return;
     }
 
     try {
       const response = await fetch('assets/data/writeups.json');
-      if (!response.ok) throw new Error('Erreur réseau : ' + response.status);
+      if (!response.ok) throw new Error('Network error: ' + response.status);
 
       const writeups = await response.json();
       const writeup = writeups.find(w => w.id === id);
@@ -49,8 +49,8 @@
       if (!writeup) {
         container.textContent = '';
         const err = el('div', { className: 'detail-error' });
-        err.textContent = 'Writeup non trouvé. ';
-        err.appendChild(el('a', { href: 'writeups.html' }, 'Retour aux writeups'));
+        err.textContent = 'Writeup not found. ';
+        err.appendChild(el('a', { href: 'writeups.html' }, 'Back to writeups'));
         container.appendChild(err);
         return;
       }
@@ -69,7 +69,7 @@
       meta.appendChild(el('span', null, '📁 ' + writeup.category));
       meta.appendChild(el('span', null, '⚔️ ' + writeup.difficulty));
       if (writeup.date) {
-        meta.appendChild(el('span', null, '📅 ' + new Date(writeup.date).toLocaleDateString('fr-FR')));
+        meta.appendChild(el('span', null, '📅 ' + new Date(writeup.date).toLocaleDateString('en-US')));
       }
       header.appendChild(meta);
 
@@ -89,7 +89,7 @@
         renderContentHtml(container, writeup.content);
       } else {
         const noContent = el('div', { className: 'detail-content' });
-        noContent.appendChild(el('p', { textContent: writeup.summary || 'Contenu non disponible.' }));
+        noContent.appendChild(el('p', { textContent: writeup.summary || 'Content not available.' }));
         container.appendChild(noContent);
       }
 
@@ -108,7 +108,7 @@
       // Hash
       if (writeup.hash) {
         const hashDiv = el('div', { className: 'detail-hash' });
-        hashDiv.appendChild(el('strong', { textContent: 'Hash : ' }));
+        hashDiv.appendChild(el('strong', { textContent: 'Hash: ' }));
         hashDiv.appendChild(document.createTextNode(writeup.hash));
         container.appendChild(hashDiv);
       }
@@ -116,7 +116,7 @@
     } catch (error) {
       container.textContent = '';
       const err = el('div', { className: 'detail-error' });
-      err.textContent = 'Erreur lors du chargement : ' + error.message;
+      err.textContent = 'Error loading: ' + error.message;
       container.appendChild(err);
     }
   }

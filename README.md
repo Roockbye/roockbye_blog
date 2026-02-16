@@ -1,73 +1,73 @@
 # roockbye_blog
 
-Blog hacker stylé avec design cyberpunk violet/noir, hébergé sur **GitHub Pages**. 
-Contenu statique (HTML + CSS + vanilla JS) sans dépendances, déploiement automatique via GitHub Actions.
+Blog hacker stylé avec design cyberpunk violet/noir, hosted on **GitHub Pages**. 
+Static content (HTML + CSS + vanilla JS) with zero dependencies, automatic deployment via GitHub Actions.
 
-## 🚀 Déploiement
+## 🚀 Deployment
 
-Ce projet est configuré pour **GitHub Pages** :
-- ✅ Zéro dépendances npm (production)
-- ✅ Contenu statique avec données JSON
-- ✅ Déploiement automatique sur chaque push vers `main`
-- ✅ Sécurité Grade A (CSP stricte, HTTPS, no trackers)
-- ✅ Accessible à `https://roockbye.github.io/roockbye_blog/` (ou domaine custom)
+This project is configured for **GitHub Pages**:
+- ✅ Zero npm dependencies (production)
+- ✅ Static content with JSON data
+- ✅ Automatic deployment on every push to `main`
+- ✅ Security Grade A (strict CSP, HTTPS, no trackers)
+- ✅ Accessible at `https://roockbye.github.io/roockbye_blog/` (or custom domain)
 
-### Démarrer
-1. Push vers GitHub : `git push origin main`
-2. GitHub Actions déploie automatiquement sur Pages ⚡
-3. Attends 2-3 min → site live ✨
+### Getting started
+1. Push to GitHub: `git push origin main`
+2. GitHub Actions automatically deploys to Pages ⚡
+3. Wait 2-3 min → site is live ✨
 
 ## Stack & architecture
-- **Frontend** : HTML5 + CSS3 + vanilla JS (aucune dépendance)
-- **Data** : JSON statique dans `assets/data/` (writeups.json, blog.json)
-- **Déploiement** : GitHub Pages + GitHub Actions
-- **Performance** : ~68 KB total, gzipped ~15-20 KB
+- **Frontend**: HTML5 + CSS3 + vanilla JS (no dependencies)
+- **Data**: Static JSON in `assets/data/` (writeups.json, blog.json)
+- **Deployment**: GitHub Pages + GitHub Actions
+- **Performance**: ~68 KB total, gzipped ~15-20 KB
 
 ## Visual direction
 - Cyberpunk palette anchored in deep blacks and energetic violets with neon gradients
 - Expressive headings (Space Grotesk) mixed with monospaced body text for terminal vibes
 - Dynamic glow accents, subtle scan-line background texture, and purposeful micro-animations (nav underline, card hover, page reveals)
 
-## 📁 Structure du projet
+## 📁 Project structure
 
 ```
 roockbye_blog/
-├── index.html                      # Page d'accueil (hero, featured)
-├── about.html                      # À propos (timeline, skills)
-├── writeups.html                   # Writeups avec filtres
-├── blog.html                       # Blog posts avec filtres
+├── index.html                      # Home page (hero, featured)
+├── about.html                      # About (timeline, skills)
+├── writeups.html                   # Writeups with filters
+├── blog.html                       # Blog posts with filters
 ├── assets/
 │   ├── css/
-│   │   └── main.css               # Design cyberpunk (25 KB)
+│   │   └── main.css               # Cyberpunk design (25 KB)
 │   ├── js/
-│   │   ├── site.js                # Utilitaires globaux (theme toggle, nav)
-│   │   ├── api.js                 # Client API (charge JSON, caching)
-│   │   ├── writeups.js            # Logic writeups (filtrage, render)
-│   │   └── blog.js                # Logic blog (filtrage, render)
+│   │   ├── site.js                # Global utilities (theme toggle, nav)
+│   │   ├── api.js                 # API client (loads JSON, caching)
+│   │   ├── writeups.js            # Writeups logic (filtering, render)
+│   │   └── blog.js                # Blog logic (filtering, render)
 │   └── data/
-│       ├── writeups.json          # Writeups structurées (4+ items)
+│       ├── writeups.json          # Structured writeups (4+ items)
 │       └── blog.json              # Blog posts (6+ items)
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml             # GitHub Actions CI/CD
 ├── .nojekyll                      # Skip Jekyll processing
-├── CODE_AUDIT.md                  # Audit de sécurité complet
-├── GITHUB_PAGES_CONFIG.md         # Config GitHub Pages
-├── README.md                      # Ce fichier
+├── CODE_AUDIT.md                  # Full security audit
+├── GITHUB_PAGES_CONFIG.md         # GitHub Pages config
+├── README.md                      # This file
 └── .gitignore                     # Git ignore patterns
 ```
 
-## 📝 Gestion du contenu
+## 📝 Content management
 
-### Ajouter un writeup
-Édite `assets/data/writeups.json` et ajoute un objet :
+### Adding a writeup
+Edit `assets/data/writeups.json` and add an object:
 ```json
 {
-  "id": "mon-writeup",
-  "title": "Titre du writeup",
+  "id": "my-writeup",
+  "title": "Writeup title",
   "category": "web|kernel|crypto|system",
   "difficulty": "init|medium|hard",
-  "summary": "Description courte",
+  "summary": "Short description",
   "tags": ["tag1", "tag2"],
   "hash": "sha512:xxxx",
   "mitigations": ["mitigation 1", "mitigation 2"],
@@ -75,108 +75,108 @@ roockbye_blog/
 }
 ```
 
-### Ajouter un blog post
-Édite `assets/data/blog.json` et ajoute un objet :
+### Adding a blog post
+Edit `assets/data/blog.json` and add an object:
 ```json
 {
-  "id": "mon-post",
-  "title": "Titre du post",
+  "id": "my-post",
+  "title": "Post title",
   "category": "redteam|research|blueprint",
-  "summary": "Description courte",
+  "summary": "Short description",
   "date": "2025-12-06T14:30:00Z",
   "tags": ["tag1", "tag2"]
 }
 ```
 
-Après chaque modification, un commit sur `main` déclenche le déploiement automatique ! 🚀
+After each change, a commit to `main` triggers automatic deployment! 🚀
 
-## 🔒 Sécurité & Standards
+## 🔒 Security & Standards
 
-### Sécurité Frontend
-- ✅ **CSP stricte** : `default-src 'self'` + font whitelist
-- ✅ **HTTPS forcé** : GitHub Pages + Enforce HTTPS toggle
-- ✅ **XSS Protection** : TextContent + createElement (pas d'innerHTML dangereux)
-- ✅ **No tracking** : Zéro script externe (Google Analytics, FB Pixel, etc.)
-- ✅ **Input sanitization** : Tous les inputs validés avant utilisation
-- ✅ **Secure headers** : X-Content-Type-Options, Referrer-Policy, HSTS
+### Frontend Security
+- ✅ **Strict CSP**: `default-src 'self'` + font whitelist
+- ✅ **Forced HTTPS**: GitHub Pages + Enforce HTTPS toggle
+- ✅ **XSS Protection**: TextContent + createElement (no dangerous innerHTML)
+- ✅ **No tracking**: Zero external scripts (Google Analytics, FB Pixel, etc.)
+- ✅ **Input sanitization**: All inputs validated before use
+- ✅ **Secure headers**: X-Content-Type-Options, Referrer-Policy, HSTS
 
-### Accessibilité (a11y)
-- ✅ Sémantique HTML5 (header, nav, main, article, footer)
-- ✅ ARIA labels sur les boutons
-- ✅ Navigation au clavier 100% fonctionnelle
-- ✅ Contraste suffisant (WCAG AA)
-- ✅ Mode réduit de mouvement respecté
+### Accessibility (a11y)
+- ✅ HTML5 semantics (header, nav, main, article, footer)
+- ✅ ARIA labels on buttons
+- ✅ 100% keyboard navigation
+- ✅ Sufficient contrast (WCAG AA)
+- ✅ Reduced motion mode respected
 
-### Standards de Code
-- ✅ Strict mode JavaScript partout
-- ✅ ES6+ modernes (async/await, optional chaining, etc.)
-- ✅ Pas de dépendances npm (pour la prod)
-- ✅ Conventions de nommage cohérentes
-- ✅ Commentaires sur la logique complexe
+### Code Standards
+- ✅ JavaScript strict mode everywhere
+- ✅ Modern ES6+ (async/await, optional chaining, etc.)
+- ✅ No npm dependencies (for production)
+- ✅ Consistent naming conventions
+- ✅ Comments on complex logic
 
-Voir **[CODE_AUDIT.md](CODE_AUDIT.md)** pour l'audit complet.
+See **[CODE_AUDIT.md](CODE_AUDIT.md)** for the full audit.
 ```
 
-## Lancer en local pour développer
+## Running locally for development
 
-Deux options :
+Two options:
 
-### Option 1 : Python (simple)
+### Option 1: Python (simple)
 ```bash
 # Python 3
 python3 -m http.server 8000
 
-# Accès : http://localhost:8000
-# Rafraîchis le navigateur après les modifications (F5)
+# Access: http://localhost:8000
+# Refresh the browser after changes (F5)
 ```
 
-### Option 2 : Node.js http-server
+### Option 2: Node.js http-server
 ```bash
-# Installe si besoin
+# Install if needed
 npm install -g http-server
 
-# Lance
+# Start
 http-server -p 8080
 
-# Accès : http://localhost:8080
+# Access: http://localhost:8080
 ```
 
-### Modifier le contenu
-1. Édite les fichiers JSON dans `assets/data/`
-2. Rafraîchis le navigateur (F5) pour voir les changements
-3. Commit et push → déploiement auto sur Pages ✨
+### Editing content
+1. Edit the JSON files in `assets/data/`
+2. Refresh the browser (F5) to see the changes
+3. Commit and push → auto deployment to Pages ✨
 
-## Bonnes pratiques
+## Best practices
 
-### ✅ À faire
-- Éditer le contenu dans les fichiers JSON
-- Committer régulièrement : `git add . && git commit -m "feat: add new writeup"`
-- Tester localement avant de push
-- Utiliser des messages de commit clairs
+### ✅ Do
+- Edit content in the JSON files
+- Commit regularly: `git add . && git commit -m "feat: add new writeup"`
+- Test locally before pushing
+- Use clear commit messages
 
-### ❌ À ne pas faire
-- Ne pas éditer les fichiers HTML/CSS/JS sans raison valide
-- Ne pas ajouter npm dependencies légères
-- Ne pas committer de secrets ou fichiers sensibles
-- Ne pas supprimer la CSP ou les headers de sécurité
-- Ne pas utiliser `innerHTML` avec du contenu dynamique
+### ❌ Don't
+- Don't edit HTML/CSS/JS files without a valid reason
+- Don't add lightweight npm dependencies
+- Don't commit secrets or sensitive files
+- Don't remove CSP or security headers
+- Don't use `innerHTML` with dynamic content
 
-## ⚙️ Améliorations futures
+## ⚙️ Future improvements
 
-### Contenu
-- [ ] Ajouter plus de writeups/posts
-- [ ] Système de tags avancé
-- [ ] Système de commentaires sécurisé
+### Content
+- [ ] Add more writeups/posts
+- [ ] Advanced tag system
+- [ ] Secure comment system
 
 ### Frontend
-- [ ] Admin panel pour gérer les posts (sans backend)
-- [ ] Dark/Light mode switcher (prêt, juste activer)
+- [ ] Admin panel for managing posts (no backend)
+- [ ] Dark/Light mode switcher (ready, just enable)
 - [ ] PWA support (offline reading)
-- [ ] Traduction i18n
+- [ ] i18n translation
 
-### Avancé (si tu veux un backend)
-- [ ] Base de données (PostgreSQL/MongoDB)
-- [ ] Authentification JWT pour admin panel
-- [ ] API avec validation Zod
-- [ ] Containerisation Docker
-- [ ] Déployer backend sur Railway/Fly.io (séparé de Pages)
+### Advanced (if you want a backend)
+- [ ] Database (PostgreSQL/MongoDB)
+- [ ] JWT authentication for admin panel
+- [ ] API with Zod validation
+- [ ] Docker containerization
+- [ ] Deploy backend on Railway/Fly.io (separate from Pages)

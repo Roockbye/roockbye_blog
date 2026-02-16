@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="description" content="Filtres writeups et challenges – tri par difficulté, catégorie et tags pour rester aiguisé.">
+    <meta name="description" content="Writeup and challenge filters – sort by difficulty, category and tags to stay sharp.">
     <title>Roockbye | Writeups</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' ry='18' fill='%23040008'/%3E%3Cpath d='M20 30h60v40H20z' stroke='%23c084fc' stroke-width='6' fill='none'/%3E%3Ccircle cx='35' cy='50' r='6' fill='%23f472b6'/%3E%3Ccircle cx='65' cy='50' r='6' fill='%2314f1d9'/%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -14,15 +14,15 @@
   <body data-theme="dark">
     <div class="background-grid" aria-hidden="true"></div>
     <header class="site-header">
-      <nav class="navbar" aria-label="Navigation principale">
+      <nav class="navbar" aria-label="Main navigation">
         <a class="logo" href="./index.html">Roockbye</a>
         <div class="nav-actions">
           <button id="nav-toggle" aria-expanded="false" aria-controls="nav-links">Menu</button>
-          <button id="theme-toggle" aria-label="Basculer le thème" data-theme="dark">Mode</button>
+          <button id="theme-toggle" aria-label="Toggle theme" data-theme="dark">Mode</button>
         </div>
         <div class="nav-links" id="nav-links">
-          <a href="./index.html">Accueil</a>
-          <a href="./about.html">À propos</a>
+          <a href="./index.html">Home</a>
+          <a href="./about.html">About</a>
           <a href="./writeups.html" aria-current="page">Writeups</a>
           <a href="./blog.html">Blog</a>
         </div>
@@ -32,30 +32,30 @@
     <main>
       <section class="container hero-grid">
         <div class="hero-panel">
-          <p class="kicker">writeups sécurisés</p>
-          <h1>Filtrer, prioriser, partager.</h1>
+          <p class="kicker">secured writeups</p>
+          <h1>Filter, prioritize, share.</h1>
           <p>
-            Base de connaissances privée rendue publique pour les curieux. Chaque writeup inclut des garde-fous
-            (hash, scope, mitigation) afin d'éviter toute dérive malveillante.
+            Private knowledge base made public for the curious. Each writeup includes safeguards
+            (hash, scope, mitigation) to prevent any malicious misuse.
           </p>
         </div>
         <div class="hero-panel">
-          <span class="badge">Stats live</span>
-          <p><strong data-total-count>0</strong> writeups chargés</p>
-          <p>Filtrage local, aucune donnée envoyée côté serveur.</p>
+          <span class="badge">Live stats</span>
+          <p><strong data-total-count>0</strong> writeups loaded</p>
+          <p>Local filtering, no data sent to the server.</p>
         </div>
       </section>
 
       <section class="container">
         <div class="writeup-controls">
           <label class="control">
-            <span>Recherche</span>
+            <span>Search</span>
             <input type="search" id="writeup-search" name="writeup-search" placeholder="SQLi, cloud, crypto..." autocomplete="off">
           </label>
           <label class="control">
-            <span>Difficulté</span>
+            <span>Difficulty</span>
             <select id="difficulty-filter" name="difficulty">
-              <option value="all">Toutes</option>
+              <option value="all">All</option>
               <option value="easy">Easy</option>
               <option value="medium">Medium</option>
               <option value="hard">Hard</option>
@@ -64,8 +64,8 @@
           </label>
           <div class="control">
             <span>Tags</span>
-            <div class="chip-row" id="tag-chips" role="group" aria-label="Filtrer par tag">
-              <button class="chip" type="button" aria-pressed="true" data-tag="all">Tous</button>
+            <div class="chip-row" id="tag-chips" role="group" aria-label="Filter by tag">
+              <button class="chip" type="button" aria-pressed="true" data-tag="all">All</button>
               <button class="chip" type="button" aria-pressed="false" data-tag="web">Web</button>
               <button class="chip" type="button" aria-pressed="false" data-tag="cloud">Cloud</button>
               <button class="chip" type="button" aria-pressed="false" data-tag="reverse">Reverse</button>
@@ -82,11 +82,11 @@
       <div class="container footer-grid">
         <div>
           <strong>Disclaimer</strong>
-          <p>Echantillons redacted, exploitation responsable uniquement.</p>
+          <p>Samples redacted, responsible exploitation only.</p>
         </div>
         <div>
           <strong>Hashes</strong>
-          <p>Chaque PoC signé (SHA-512) et horodaté.</p>
+          <p>Every PoC signed (SHA-512) and timestamped.</p>
         </div>
       </div>
     </footer>

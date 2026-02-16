@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="description" content="Blog Roockbye – posts techniques, attaques simulées, et retours d'expérience red team.">
+    <meta name="description" content="Roockbye blog – technical posts, simulated attacks, and red team experience reports.">
     <title>Roockbye | Blog</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' ry='18' fill='%23040008'/%3E%3Cpath d='M20 30h60v40H20z' stroke='%23c084fc' stroke-width='6' fill='none'/%3E%3Ccircle cx='35' cy='50' r='6' fill='%23f472b6'/%3E%3Ccircle cx='65' cy='50' r='6' fill='%2314f1d9'/%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -14,15 +14,15 @@
   <body data-theme="dark">
     <div class="background-grid" aria-hidden="true"></div>
     <header class="site-header">
-      <nav class="navbar" aria-label="Navigation principale">
+      <nav class="navbar" aria-label="Main navigation">
         <a class="logo" href="./index.html">Roockbye</a>
         <div class="nav-actions">
           <button id="nav-toggle" aria-expanded="false" aria-controls="nav-links">Menu</button>
-          <button id="theme-toggle" aria-label="Basculer le thème" data-theme="dark">Mode</button>
+          <button id="theme-toggle" aria-label="Toggle theme" data-theme="dark">Mode</button>
         </div>
         <div class="nav-links" id="nav-links">
-          <a href="./index.html">Accueil</a>
-          <a href="./about.html">À propos</a>
+          <a href="./index.html">Home</a>
+          <a href="./about.html">About</a>
           <a href="./writeups.html">Writeups</a>
           <a href="./blog.html" aria-current="page">Blog</a>
         </div>
@@ -32,24 +32,24 @@
     <main>
       <section class="container hero-grid">
         <div class="hero-panel">
-          <p class="kicker">journal offensif</p>
-          <h1>Posts d'attaques, labo et défense active.</h1>
-          <p>Retours terrains documentés : objectifs, schémas d'intrusion, lessons learned et mesures de mitigation.</p>
+          <p class="kicker">offensive journal</p>
+          <h1>Attack posts, lab notes and active defense.</h1>
+          <p>Documented field reports: objectives, intrusion patterns, lessons learned and mitigation measures.</p>
         </div>
       </section>
 
       <section class="container">
         <div class="blog-controls">
           <label class="control">
-            <span>Recherche</span>
+            <span>Search</span>
             <input type="search" id="post-search" placeholder="APT, cloud, OT..." autocomplete="off">
           </label>
           <label class="control">
-            <span>Catégorie</span>
+            <span>Category</span>
             <select id="category-filter">
-              <option value="all">Toutes</option>
+              <option value="all">All</option>
               <option value="redteam">Red Team</option>
-              <option value="research">Recherche</option>
+              <option value="research">Research</option>
               <option value="blueteam">BlueTeam</option>
               <option value="hardware">Hardware</option>
               <option value="cti">CTI</option>
@@ -64,12 +64,12 @@
     <footer>
       <div class="container footer-grid">
         <div>
-          <strong>Diffusion</strong>
-          <p>RSS signé, pas de scripts externes.</p>
+          <strong>Distribution</strong>
+          <p>Signed RSS, no external scripts.</p>
         </div>
         <div>
-          <strong>Mentions</strong>
-          <p>CC-BY-SA pour la pédagogie, disclosures coordonnées.</p>
+          <strong>Legal</strong>
+          <p>CC-BY-SA for educational content, coordinated disclosures.</p>
         </div>
       </div>
     </footer>

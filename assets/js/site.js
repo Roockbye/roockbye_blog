@@ -14,7 +14,7 @@
       return toolkit.sanitizeInput(value).toLowerCase();
     },
     formatDate(isoString) {
-      const formatter = new Intl.DateTimeFormat('fr-FR', {
+      const formatter = new Intl.DateTimeFormat('en-US', {
         year: 'numeric',
         month: 'short',
         day: '2-digit'

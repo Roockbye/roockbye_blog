@@ -1,16 +1,16 @@
 (() => {
   'use strict';
 
-  // Fallback data si l'API est indisponible
+  // Fallback data if the API is unavailable
   const fallbackPosts = [
     {
       id: 'op-wraith',
-      title: 'Opération Wraith Pulse',
+      title: 'Operation Wraith Pulse',
       category: 'redteam',
       date: '2025-11-18',
-      summary: 'Simulation d’APT multi-cloud avec empreintes numériques minimales et egress sur satellite.',
+      summary: 'Multi-cloud APT simulation with minimal digital footprints and satellite egress.',
       tags: ['C2', 'Evasion'],
-      mitigations: ['Network baselines', 'UEBA renforcé'],
+      mitigations: ['Network baselines', 'Enhanced UEBA'],
       link: 'blog-detail.html#op-wraith'
     },
     {
@@ -18,9 +18,9 @@
       title: 'Hypervisor Poisoning Deep Dive',
       category: 'research',
       date: '2025-09-04',
-      summary: 'Reverse engineering complet de la VRAM partagée et sideload de payloads persistants.',
+      summary: 'Complete reverse engineering of shared VRAM and persistent payload sideloading.',
       tags: ['Cloud', 'Virtualisation'],
-      mitigations: ['Secure boot chain', 'Attestation continue'],
+      mitigations: ['Secure boot chain', 'Continuous attestation'],
       link: 'blog-detail.html#hypervisor'
     },
     {
@@ -28,7 +28,7 @@
       title: 'Blueprint: SOC anti-mimiKatz',
       category: 'blueprint',
       date: '2025-08-11',
-      summary: 'Playbook côté blue team pour détecter les extractions LSASS même chiffrées.',
+      summary: 'Blue team playbook for detecting LSASS extractions, even encrypted ones.',
       tags: ['Detection'],
       mitigations: ['YARA live', 'ETW hardening'],
       link: 'blog-detail.html#blue-glass'
@@ -38,7 +38,7 @@
       title: 'Silo Rain Notes',
       category: 'redteam',
       date: '2025-07-02',
-      summary: 'Chaîne SSRF → exfiltration hermétique, avec nouveaux contremesures Terraform.',
+      summary: 'SSRF → hermetic exfiltration chain, with new Terraform countermeasures.',
       tags: ['Cloud'],
       mitigations: ['Metadata sanitize', 'Secrets rotation'],
       link: 'blog-detail.html#silo-rain'
@@ -68,7 +68,7 @@
       if (!items.length) {
         const empty = document.createElement('div');
         empty.className = 'no-results';
-        empty.textContent = 'Aucun post ne correspond à votre recherche.';
+        empty.textContent = 'No posts match your search.';
         nodes.list.appendChild(empty);
         return;
       }
@@ -124,7 +124,7 @@
         const link = document.createElement('a');
         link.href = 'blog-detail.html#' + post.id;
         link.className = 'link-arrow';
-        link.textContent = 'Voir les détails';
+        link.textContent = 'View details';
         link.setAttribute('rel', 'noopener');
         footer.appendChild(link);
         article.appendChild(footer);
@@ -165,7 +165,7 @@
       applyFilters();
     });
 
-    // Charger les posts depuis l'API
+    // Load posts from the API
     async function loadBlogPosts() {
       try {
         const api = window.RBApi;

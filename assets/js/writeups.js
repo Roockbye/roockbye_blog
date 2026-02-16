@@ -1,14 +1,14 @@
 (() => {
   'use strict';
 
-  // Fallback data si l'API est indisponible
+  // Fallback data if the API is unavailable
   const fallbackWriteups = [
     {
       id: 'hypervisor',
       title: 'Hypervisor Poisoning',
       category: 'Cloud isolation',
       difficulty: 'hard',
-      summary: 'Chaîne d’attaque visant la mémoire partagée et la remontée de privilèges invités → host.',
+      summary: 'Attack chain targeting shared memory and guest → host privilege escalation.',
       tags: ['cloud', 'reverse'],
       hash: 'sha512:6f1f347b7d69',
       mitigations: ['Strict micro-segmentation', 'Integrity monitoring', 'Firmware attestation']
@@ -18,10 +18,10 @@
       title: 'Cipher Veins',
       category: 'Crypto',
       difficulty: 'medium',
-      summary: 'Analyse différentielle sur un protocole maison utilisé dans un IOT industriel.',
+      summary: 'Differential analysis on a custom protocol used in an industrial IoT device.',
       tags: ['crypto'],
       hash: 'sha512:a12ae0e8bd30',
-      mitigations: ['Remplacer l’algorithme propriétaire', 'Limiter les clés statiques']
+      mitigations: ['Replace the proprietary algorithm', 'Limit static keys']
     },
     {
       id: 'silo-rain',
@@ -38,30 +38,30 @@
       title: 'Signal Pulse',
       category: 'RF / OT',
       difficulty: 'hard',
-      summary: 'Pivot RF vers réseau interne via passerelle Modbus vulnérable.',
+      summary: 'RF pivot to internal network via a vulnerable Modbus gateway.',
       tags: ['reverse'],
       hash: 'sha512:0d4e12097a22',
-      mitigations: ['Isolation protocole', 'Audit firmware']
+      mitigations: ['Protocol isolation', 'Firmware audit']
     },
     {
       id: 'lumen-stage',
       title: 'Lumen Stage',
       category: 'Binary exploitation',
       difficulty: 'init',
-      summary: 'Ret2libc pédagogique sous GLIBC 2.31 avec focus sur la préparation des gadgets.',
+      summary: 'Educational ret2libc under GLIBC 2.31 with focus on gadget preparation.',
       tags: ['reverse'],
       hash: 'sha512:4a7812bb1191',
-      mitigations: ['ASLR strict', 'Stack canaries', 'RELRO complet']
+      mitigations: ['ASLR strict', 'Stack canaries', 'Full RELRO']
     },
     {
       id: 'fog-lattice',
       title: 'Fog Lattice',
       category: 'Cloud / IAM',
       difficulty: 'medium',
-      summary: 'Escalade de privilèges via mauvaise délégation Terraform.',
+      summary: 'Privilege escalation via misconfigured Terraform delegation.',
       tags: ['cloud'],
       hash: 'sha512:9b2ee871b410',
-      mitigations: ['Revue IaC', 'limitation AssumeRole', 'Session MFA']
+      mitigations: ['IaC review', 'AssumeRole restriction', 'MFA session']
     }
   ];
 
@@ -103,7 +103,7 @@
       if (!list.length) {
         const empty = document.createElement('div');
         empty.className = 'no-results';
-        empty.textContent = 'Aucun writeup ne correspond à ce filtre.';
+        empty.textContent = 'No writeups match this filter.';
         nodes.cards.appendChild(empty);
         return;
       }
@@ -163,7 +163,7 @@
         const link = document.createElement('a');
         link.className = 'link-arrow';
         link.href = `writeup-detail.html#${item.id}`;
-        link.textContent = 'Voir le post';
+        link.textContent = 'View writeup';
         link.setAttribute('rel', 'noopener');
         footer.appendChild(link);
         card.appendChild(footer);
@@ -221,7 +221,7 @@
       applyFilters();
     });
 
-    // Charger les writeups depuis l'API
+    // Load writeups from the API
     async function loadWriteups() {
       try {
         const api = window.RBApi;
