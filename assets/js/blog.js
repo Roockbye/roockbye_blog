@@ -60,6 +60,8 @@
 
     if (!nodes.list) return;
 
+    let posts = [];
+
     const state = { text: '', category: 'all' };
 
     const render = (items) => {
@@ -171,23 +173,23 @@
         const api = window.RBApi;
         if (!api) {
           console.warn('API not available, using fallback data');
-          render(fallbackPosts);
+          posts = fallbackPosts;
           return;
         }
 
         const response = await api.getBlogPosts();
         if (response.success && response.data) {
-          render(response.data);
+          posts = response.data;
         } else {
-          render(fallbackPosts);
+          posts = fallbackPosts;
         }
       } catch (error) {
         console.error('Failed to load blog posts:', error);
-        render(fallbackPosts);
+        posts = fallbackPosts;
       }
     }
 
-    loadBlogPosts();
+    loadBlogPosts().then(() => applyFilters());
   }
 
   document.addEventListener('DOMContentLoaded', init);

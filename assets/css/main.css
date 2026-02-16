@@ -633,6 +633,20 @@ footer .container {
   color: var(--text);
 }
 
+.footer-grid a {
+  color: var(--primary);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color var(--transition), border-color var(--transition), text-shadow var(--transition);
+}
+
+.footer-grid a:hover,
+.footer-grid a:focus {
+  color: var(--cyan);
+  border-bottom-color: var(--cyan);
+  text-shadow: 0 0 8px rgba(0, 217, 255, 0.5);
+}
+
 @media (max-width: 800px) {
   #nav-toggle {
     display: inline-flex;

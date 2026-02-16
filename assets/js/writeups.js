@@ -87,6 +87,8 @@
 
     if (!nodes.cards) return;
 
+    let writeups = [];
+
     const state = {
       text: '',
       difficulty: 'all',
@@ -227,23 +229,23 @@
         const api = window.RBApi;
         if (!api) {
           console.warn('API not available, using fallback data');
-          render(fallbackWriteups);
+          writeups = fallbackWriteups;
           return;
         }
 
         const response = await api.getWriteups();
         if (response.success && response.data) {
-          render(response.data);
+          writeups = response.data;
         } else {
-          render(fallbackWriteups);
+          writeups = fallbackWriteups;
         }
       } catch (error) {
         console.error('Failed to load writeups:', error);
-        render(fallbackWriteups);
+        writeups = fallbackWriteups;
       }
     }
 
-    loadWriteups();
+    loadWriteups().then(() => applyFilters());
   }
 
   document.addEventListener('DOMContentLoaded', init);
