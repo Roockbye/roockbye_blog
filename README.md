@@ -3,19 +3,19 @@
 Blog hacker stylé avec design cyberpunk violet/noir, hosted on **GitHub Pages**. 
 Static content (HTML + CSS + vanilla JS) with zero dependencies, automatic deployment via GitHub Actions.
 
-## 🚀 Deployment
+## Deployment
 
 This project is configured for **GitHub Pages**:
-- ✅ Zero npm dependencies (production)
-- ✅ Static content with JSON data
-- ✅ Automatic deployment on every push to `main`
-- ✅ Security Grade A (strict CSP, HTTPS, no trackers)
-- ✅ Accessible at `https://roockbye.github.io/roockbye_blog/` (or custom domain)
+- Zero npm dependencies (production)
+- Static content with JSON data
+- Automatic deployment on every push to `main`
+- Security Grade A (strict CSP, HTTPS, no trackers)
+- Accessible at `https://roockbye.github.io/roockbye_blog/`
 
 ### Getting started
 1. Push to GitHub: `git push origin main`
 2. GitHub Actions automatically deploys to Pages ⚡
-3. Wait 2-3 min → site is live ✨
+3. Wait 2-3 min → site is live
 
 ## Stack & architecture
 - **Frontend**: HTML5 + CSS3 + vanilla JS (no dependencies)
@@ -28,7 +28,7 @@ This project is configured for **GitHub Pages**:
 - Expressive headings (Space Grotesk) mixed with monospaced body text for terminal vibes
 - Dynamic glow accents, subtle scan-line background texture, and purposeful micro-animations (nav underline, card hover, page reveals)
 
-## 📁 Project structure
+## Project structure
 
 ```
 roockbye_blog/
@@ -57,7 +57,7 @@ roockbye_blog/
 └── .gitignore                     # Git ignore patterns
 ```
 
-## 📝 Content management
+## Content management
 
 ### Adding a writeup
 Edit `assets/data/writeups.json` and add an object:
@@ -90,29 +90,29 @@ Edit `assets/data/blog.json` and add an object:
 
 After each change, a commit to `main` triggers automatic deployment! 🚀
 
-## 🔒 Security & Standards
+## Security & Standards
 
 ### Frontend Security
-- ✅ **Strict CSP**: `default-src 'self'` + font whitelist
-- ✅ **Forced HTTPS**: GitHub Pages + Enforce HTTPS toggle
-- ✅ **XSS Protection**: TextContent + createElement (no dangerous innerHTML)
-- ✅ **No tracking**: Zero external scripts (Google Analytics, FB Pixel, etc.)
-- ✅ **Input sanitization**: All inputs validated before use
-- ✅ **Secure headers**: X-Content-Type-Options, Referrer-Policy, HSTS
+- **Strict CSP**: `default-src 'self'` + font whitelist
+- **Forced HTTPS**: GitHub Pages + Enforce HTTPS toggle
+- **XSS Protection**: TextContent + createElement (no dangerous innerHTML)
+- **No tracking**: Zero external scripts (Google Analytics, FB Pixel, etc.)
+- **Input sanitization**: All inputs validated before use
+- **Secure headers**: X-Content-Type-Options, Referrer-Policy, HSTS
 
 ### Accessibility (a11y)
-- ✅ HTML5 semantics (header, nav, main, article, footer)
-- ✅ ARIA labels on buttons
-- ✅ 100% keyboard navigation
-- ✅ Sufficient contrast (WCAG AA)
-- ✅ Reduced motion mode respected
+- HTML5 semantics (header, nav, main, article, footer)
+- ARIA labels on buttons
+- 100% keyboard navigation
+- Sufficient contrast (WCAG AA)
+- Reduced motion mode respected
 
 ### Code Standards
-- ✅ JavaScript strict mode everywhere
-- ✅ Modern ES6+ (async/await, optional chaining, etc.)
-- ✅ No npm dependencies (for production)
-- ✅ Consistent naming conventions
-- ✅ Comments on complex logic
+- JavaScript strict mode everywhere
+- Modern ES6+ (async/await, optional chaining, etc.)
+- No npm dependencies (for production)
+- Consistent naming conventions
+- Comments on complex logic
 
 See **[CODE_AUDIT.md](CODE_AUDIT.md)** for the full audit.
 ```
@@ -144,24 +144,24 @@ http-server -p 8080
 ### Editing content
 1. Edit the JSON files in `assets/data/`
 2. Refresh the browser (F5) to see the changes
-3. Commit and push → auto deployment to Pages ✨
+3. Commit and push → auto deployment to Pages
 
 ## Best practices
 
-### ✅ Do
+### Do
 - Edit content in the JSON files
 - Commit regularly: `git add . && git commit -m "feat: add new writeup"`
 - Test locally before pushing
 - Use clear commit messages
 
-### ❌ Don't
+### Don't
 - Don't edit HTML/CSS/JS files without a valid reason
 - Don't add lightweight npm dependencies
 - Don't commit secrets or sensitive files
 - Don't remove CSP or security headers
 - Don't use `innerHTML` with dynamic content
 
-## ⚙️ Future improvements
+## Future improvements
 
 ### Content
 - [ ] Add more writeups/posts
