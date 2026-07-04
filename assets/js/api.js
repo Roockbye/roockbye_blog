@@ -31,7 +31,7 @@
       if (blogCache) return { success: true, data: blogCache, count: blogCache.length };
       
       try {
-        const response = await fetch('assets/data/blog.json');
+        const response = await fetch('assets/data/blog.json?cb=' + Date.now(), { cache: 'no-store' });
         if (!response.ok) throw new Error('Failed to load blog posts');
         blogCache = await response.json();
         return { success: true, data: blogCache, count: blogCache.length };

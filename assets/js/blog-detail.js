@@ -49,7 +49,7 @@
     }
 
     try {
-      const response = await fetch('assets/data/blog.json');
+      const response = await fetch('assets/data/blog.json?cb=' + Date.now(), { cache: 'no-store' });
       if (!response.ok) throw new Error('Network error: ' + response.status);
 
       const posts = await response.json();
