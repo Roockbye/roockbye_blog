@@ -1,6 +1,11 @@
 (() => {
   'use strict';
 
+  const isLocalHost = ['localhost', '127.0.0.1', '0.0.0.0'].includes(window.location.hostname);
+  const blogDataUrl = isLocalHost
+    ? 'assets/data/blog.json'
+    : 'https://raw.githubusercontent.com/Roockbye/roockbye_blog/main/assets/data/blog.json';
+
   function el(tag, attrs, ...children) {
     const node = document.createElement(tag);
     if (attrs) {
@@ -49,7 +54,7 @@
     }
 
     try {
-      const response = await fetch('assets/data/blog.json?cb=' + Date.now(), { cache: 'no-store' });
+      const response = await fetch(`${blogDataUrl}?cb=${Date.now()}`, { cache: 'no-store' });
       if (!response.ok) throw new Error('Network error: ' + response.status);
 
       const posts = await response.json();

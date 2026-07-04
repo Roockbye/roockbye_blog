@@ -1,6 +1,22 @@
 (() => {
   'use strict';
 
+  const isLocalHost = ['localhost', '127.0.0.1', '0.0.0.0'].includes(window.location.hostname);
+  const blogDataUrl = isLocalHost
+    ? 'assets/data/blog.json'
+    : 'https://raw.githubusercontent.com/Roockbye/roockbye_blog/main/assets/data/blog.json';
+
+  function sortPostsByDate(posts) {
+    return [...posts].sort((a, b) => {
+      const aDate = a?.date ? Date.parse(a.date) : 0;
+      const bDate = b?.date ? Date.parse(b.date) : 0;
+      if (Number.isNaN(aDate) && Number.isNaN(bDate)) return 0;
+      if (Number.isNaN(aDate)) return 1;
+      if (Number.isNaN(bDate)) return -1;
+      return bDate - aDate;
+    });
+  }
+
   // Cache for JSON data
   let writeupsCache = null;
   let blogCache = null;
@@ -31,9 +47,9 @@
       if (blogCache) return { success: true, data: blogCache, count: blogCache.length };
       
       try {
-        const response = await fetch('assets/data/blog.json?cb=' + Date.now(), { cache: 'no-store' });
+        const response = await fetch(`${blogDataUrl}?cb=${Date.now()}`, { cache: 'no-store' });
         if (!response.ok) throw new Error('Failed to load blog posts');
-        blogCache = await response.json();
+        blogCache = sortPostsByDate(await response.json());
         return { success: true, data: blogCache, count: blogCache.length };
       } catch (error) {
         console.error('Failed to load blog posts:', error);

@@ -135,6 +135,15 @@
       });
     };
 
+    const sortPosts = (items) => [...items].sort((a, b) => {
+      const aDate = a?.date ? Date.parse(a.date) : 0;
+      const bDate = b?.date ? Date.parse(b.date) : 0;
+      if (Number.isNaN(aDate) && Number.isNaN(bDate)) return 0;
+      if (Number.isNaN(aDate)) return 1;
+      if (Number.isNaN(bDate)) return -1;
+      return bDate - aDate;
+    });
+
     const applyFilters = () => {
       const filtered = posts.filter((post) => {
         if (state.category !== 'all' && post.category !== state.category) {
@@ -179,9 +188,9 @@
 
         const response = await api.getBlogPosts();
         if (response.success && response.data) {
-          posts = response.data;
+          posts = sortPosts(response.data);
         } else {
-          posts = fallbackPosts;
+          posts = sortPosts(fallbackPosts);
         }
       } catch (error) {
         console.error('Failed to load blog posts:', error);
